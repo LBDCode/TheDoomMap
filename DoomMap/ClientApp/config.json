@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "noImplicitAny": false,
+    "noEmitOnError": true,
+    "removeComments": false,
+    "sourceMap": true,
+    "target": "es5"
+  },
+  "exclude": [
+    "node_modules",
+    "wwwroot"
+  ],
+  "FireIncidentsAPIKey": "8uc2a1ue9waljesnfo7cy13s5",
+  "FireIncidentsAPIKeySecret": "5kmzuiab48hnm0msxz7ffdg0cikfhqo8alb02ye4zqqozovht5",
+  "FireIncidentsAPIAppToken": "mMBPu3Z5Dnnd4Kb8dMFcp97V0",
+  "FireIncidentsAPIAppTokenSecret": "37-cuD4c54wvxUUsdpFIYK-ONVbwEro84ZP6"
+
+}

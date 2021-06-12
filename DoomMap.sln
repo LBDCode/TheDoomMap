@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30717.126
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DoomMap", "DoomMap\DoomMap.csproj", "{A2D6C0C1-63B7-4222-831C-4702A945D73D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A2D6C0C1-63B7-4222-831C-4702A945D73D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2D6C0C1-63B7-4222-831C-4702A945D73D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2D6C0C1-63B7-4222-831C-4702A945D73D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A2D6C0C1-63B7-4222-831C-4702A945D73D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8DB823EC-D84F-4ECE-831E-113DB56CF01E}
+	EndGlobalSection
+EndGlobal
