@@ -95,7 +95,7 @@ const styles = theme => ({
     cardGrid: {
         paddingTop: theme.spacing(8),
         paddingBottom: '100px',
-        backgroundColor: '#fff',
+        backgroundColor: '#212529',
     },
     card: {
         height: '100%',
@@ -182,7 +182,7 @@ const Home = (props) => {
                                 The Doom Map
                             </Typography>
                             <Typography className={classes.heroTextSmall} variant="h5" align="left" paragraph>
-                                So, what's dooming the continental US today?
+                                So, what's dooming the United States today?
                             </Typography>
                         </Grid>
                     </Grid>

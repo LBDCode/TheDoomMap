@@ -5,6 +5,12 @@ using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.EntityFrameworkCore;
+using Npgsql;
+using NetTopologySuite.Geometries;
+using NetTopologySuite.IO.Converters;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using NetTopologySuite;
 
 namespace DoomMap
 {
@@ -28,6 +34,35 @@ namespace DoomMap
             {
                 configuration.RootPath = "ClientApp/build";
             });
+
+            services.AddControllers(options =>
+            {
+                options.ModelMetadataDetailsProviders.Add(new SuppressChildValidationMetadataProvider(typeof(Point)));
+                options.ModelMetadataDetailsProviders.Add(new SuppressChildValidationMetadataProvider(typeof(Coordinate)));
+                options.ModelMetadataDetailsProviders.Add(new SuppressChildValidationMetadataProvider(typeof(LineString)));
+                options.ModelMetadataDetailsProviders.Add(new SuppressChildValidationMetadataProvider(typeof(MultiLineString)));
+                options.ModelMetadataDetailsProviders.Add(new SuppressChildValidationMetadataProvider(typeof(MultiPolygon)));
+
+            });
+
+            services.AddControllers().AddJsonOptions(options =>
+            {
+                var geoJsonConverterFactory = new GeoJsonConverterFactory();
+                options.JsonSerializerOptions.Converters.Add(geoJsonConverterFactory);
+            });
+
+            services.AddSingleton(NtsGeometryServices.Instance);
+            var connectionString = Configuration["PostgreSql:ConnectionString"];
+            var dbPassword = Configuration["PostgreSql:DbPassword"];
+            var builder = new NpgsqlConnectionStringBuilder(connectionString)
+            {
+                Password = dbPassword
+            };
+
+            services.AddDbContext<DoomContext>(options => options.UseNpgsql(builder.ConnectionString, o => o.UseNetTopologySuite()));
+
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

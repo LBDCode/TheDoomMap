@@ -218,10 +218,10 @@ export default function NavMenu() {
                     </Link>
                     <div className={classes.grow} />
                     <div className={classes.sectionDesktop}>
-                        <Link to={"/"} href="/">Home</Link>
-                        <Link to={"/map"} href="/map">Map</Link>
-                        <Link to={"/counter"} href="/counter">Counter</Link>
-                        <Link to={"/fetch-data"} href="/fetch-data">Fetch Data</Link>
+                        <Link className={classes.rightlinks} to={"/"} href="/">Home</Link>
+                        <Link className={classes.rightlinks} to={"/map"} href="/map">Map</Link>
+                        <Link className={classes.rightlinks} to={"/counter"} href="/counter">Counter</Link>
+                        <Link className={classes.rightlinks}to={"/fetch-data"} href="/fetch-data">Fetch Data</Link>
                     </div>
                     <div className={classes.sectionMobile}>
                         <IconButton
