@@ -26,7 +26,16 @@ export default class MapComponent extends Component {
     render() {
 
 
-        const purpleOptions = { color: 'purple' }
+        const yellowOptions = { fillColor: 'yellow', stroke: false }
+        const orangeOptions = { fillColor: 'orange', stroke: false }
+        const redOptions = { fillColor: 'red', stroke: false }
+        const greenOptions = { fillColor: 'green', stroke: false }
+        const blueOptions = { fillColor: 'blue', stroke: false }
+        const purpleOptions = { fillColor: 'purple', stroke: false }
+        const blackOptions = { color: 'black' }
+
+
+
         return (
             this.props.gages ?
 
@@ -68,12 +77,11 @@ export default class MapComponent extends Component {
                     <FeatureGroup>
                         {
                             this.props.redFlag.map(area => {
-                                const red = { color: 'red' }
                                
                                 if (area && area['geom']) {
 
                                     return (
-                                        < GeoJSON pathOptions={red} key={area['gid']} data={area['geom']} />
+                                        < GeoJSON pathOptions={redOptions} key={area['gid']} data={area['geom']} />
 
                                     )
                                 }
@@ -85,13 +93,11 @@ export default class MapComponent extends Component {
                     <FeatureGroup>
                         {
                             this.props.heatAdvisory.map(area => {
-                                const orange = { color: 'orange' }
-
 
                                 if (area && area['geom']) {
 
                                     return (
-                                        < GeoJSON pathOptions={orange} key={area['gid']} data={area['geom']} />
+                                        < GeoJSON pathOptions={orangeOptions} key={area['gid']} data={area['geom']} />
 
                                     )
                                 }
@@ -103,13 +109,11 @@ export default class MapComponent extends Component {
                     <FeatureGroup>
                         {
                             this.props.floodWatch.map(area => {
-                                const blue = { color: 'blue' }
-
 
                                 if (area && area['geom']) {
 
                                     return (
-                                        < GeoJSON pathOptions={blue} key={area['gid']} data={area['geom']} />
+                                        < GeoJSON pathOptions={blueOptions} key={area['gid']} data={area['geom']} />
 
                                     )
                                 }
@@ -121,20 +125,17 @@ export default class MapComponent extends Component {
                     <FeatureGroup>
                         {
                             this.props.droughtConditions.map(area => {
-                                const yellow = {color: 'yellow'}
-                                const orange = { color: 'orange' }
-                                const red = { color: 'red' }
 
                                 function returnColor(dmScore) {
 
                                     let color;
 
                                     if (dmScore === 3) {
-                                        color = yellow;
+                                        color = yellowOptions;
                                     } else if (dmScore === 4) {
-                                        color = orange;
+                                        color = orangeOptions;
                                     } else if (dmScore === 5) {
-                                        color = red;
+                                        color = redOptions;
                                     }
                                     return color;
                                 }
@@ -156,29 +157,23 @@ export default class MapComponent extends Component {
                     <FeatureGroup>
                         {
                             this.props.stormConditions.map(area => {
-                                const yellow = { color: 'yellow' }
-                                const orange = { color: 'orange' }
-                                const red = { color: 'red' }
-                                const green = { color: 'green' }
-                                const blue = { color: 'blue' }
-                                const purple = {clor: 'purple'}
 
                                 function returnColor(max_ft) {
 
                                     let color;
 
                                     if (max_ft < 2) {
-                                        color = blue;
+                                        color = blueOptions;
                                     } else if (max_ft >= 2 && max_ft < 4) {
-                                        color = green;
+                                        color = greenOptions;
                                     } else if (max_ft >= 4 && max_ft < 6) {
-                                        color = yellow;
+                                        color = yellowOptions;
                                     } else if (max_ft >= 6 && max_ft < 8) {
-                                        color = orange;
+                                        color = orangeOptions;
                                     } else if (max_ft >= 8 && max_ft < 9.5) {
-                                        color = red;
+                                        color = redOptions;
                                     } else if (max_ft >= 9.5) {
-                                        color = purple;
+                                        color = purpleOptions;
                                     }
 
 
@@ -202,13 +197,11 @@ export default class MapComponent extends Component {
                     <FeatureGroup>
                         {
                             this.props.stormTrackLine.map(track => {
-                                const red = { color: 'red' }
-
 
                                 if (track && track['geom']) {
 
                                     return (
-                                        < GeoJSON pathOptions={red} key={track['gid']} data={track['geom']} />
+                                        < GeoJSON pathOptions={redOptions} key={track['gid']} data={track['geom']} />
 
                                     )
                                 }
@@ -219,13 +212,12 @@ export default class MapComponent extends Component {
                     <FeatureGroup>
                         {
                             this.props.stormTrackPgn.map(area => {
-                                const black = { color: 'black' }
 
 
                                 if (area && area['geom']) {
 
                                     return (
-                                        < GeoJSON pathOptions={black} key={area['gid']} data={area['geom']} />
+                                        < GeoJSON pathOptions={blackOptions} key={area['gid']} data={area['geom']} />
 
                                     )
                                 }
@@ -236,13 +228,11 @@ export default class MapComponent extends Component {
                     <FeatureGroup>
                         {
                             this.props.stormTrackPts.map(area => {
-                                const blue = { color: 'blue' }
-
 
                                 if (area && area['geom']) {
 
                                     return (
-                                        < GeoJSON pathOptions={blue} key={area['gid']} data={area['geom']} />
+                                        < GeoJSON pathOptions={blueOptions} key={area['gid']} data={area['geom']} />
 
                                     )
                                 }
