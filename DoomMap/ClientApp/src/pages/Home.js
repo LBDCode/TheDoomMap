@@ -2,6 +2,7 @@ import React from 'react';
 import { Grid, withStyles, Box } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
+import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
@@ -14,8 +15,11 @@ import heroOverlay from '../pages/landing.PNG';
 
 const styles = theme => ({
     root: {
-        backgroundColor: '#003d59',
-
+        position: 'absolute',
+        width: '100%',
+        top: '64px',
+        height: 'calc(100vh - 64px)',
+        backgroundColor: '#212529',
     },
     appbar: {
         height: '30px',
@@ -33,10 +37,12 @@ const styles = theme => ({
         marginRight: theme.spacing(2),
     },
     heroContent: {
+        height: '60vh',
+        marginTop: '80px',
         backgroundColor: '#343a40',
-        padding: theme.spacing(18, 4, 16),
+        padding: '8% 10% 20% 5%',
         paddingBottom: '140px!important',
-         position: 'relative',
+        position: 'relative',
         zIndex: '3000',
         '&::after': {
             content: "''",
@@ -59,6 +65,37 @@ const styles = theme => ({
     heroTextSmall: {
         color: "#adb5bd!important",
         fontSize: '1.5rem!important'
+    },
+    heroButton:
+    {            
+        marginTop: '20px',
+        zIndex:'10000',
+        boxShadow: 'none',
+        textTransform: 'none',
+        fontSize: 16,
+        padding: '6px 12px',
+        border: '2px solid',
+        lineHeight: 1.5,
+        backgroundColor: '#ff630700',
+        borderColor: '#ff6307',
+        color: '#ff6307',
+        '&:hover': {
+            backgroundColor: '#ff6307',
+            borderColor: '#ff6307',
+            boxShadow: 'none',
+            color: '#fff'
+        },
+        '&:active': {
+            boxShadow: 'none',
+            backgroundColor: '#ff6307',
+            borderColor: '#ff6307',
+            color: '#fff'
+
+        },
+        '&:focus': {
+            boxShadow: '0 0 0 0.2rem rgba(0,123,255,.5)',
+            color: '#fff'
+        },
     },
     heroImages: {
         display: 'flex',
@@ -93,6 +130,7 @@ const styles = theme => ({
         backgroundPosition: 'center',
     },
     cardGrid: {
+        height: '30vh',
         paddingTop: theme.spacing(8),
         paddingBottom: '100px',
         backgroundColor: '#212529',
@@ -163,7 +201,10 @@ const styles = theme => ({
     footer: {
         backgroundColor: '#343a40',
         padding: theme.spacing(4),
-    },
+        bottom: '0',
+        position: 'absolute',
+        width: '100%',
+    }
 
 });
 
@@ -173,25 +214,25 @@ const Home = (props) => {
 
     return (
         <div className={classes.root}>
-            <div >
-                <Container maxWidth={false} className={classes.appbar} />
-                <Container maxWidth={false} className={classes.heroContent}>
-                    <Grid container spacing={4}>
-                        <Grid item key={1} xs={12} sm={12} md={4}>
-                            <Typography className={classes.heroTextLarge} component="h1" variant="h2" align="left" gutterBottom>
-                                The Doom Map
-                            </Typography>
-                            <Typography className={classes.heroTextSmall} variant="h5" align="left" paragraph>
-                                So, what's dooming the United States today?
-                            </Typography>
-                        </Grid>
+            <Container maxWidth={false} className={classes.heroContent}>
+                <Grid container spacing={4}>
+                    <Grid item key={1} xs={12} sm={12} md={4}>
+                        <Typography className={classes.heroTextLarge} component="h1" variant="h2" align="left" gutterBottom>
+                            The Doom Map
+                        </Typography>
+                        <Typography className={classes.heroTextSmall} variant="h5" align="left" paragraph>
+                            So, what's dooming the United States today?
+                        </Typography>
+                        <Button variant="outlined" className={classes.heroButton} href="/map">
+                            Let's find out!
+                        </Button>
                     </Grid>
-                </Container>
-            </div>
-            <div className={classes.cardGrid} >
+                </Grid>
+            </Container>
+            {/*<div className={classes.cardGrid} >
                 <div className={classes.cardDiv}>
                     <Container maxWidth={false} >
-                        {/*<Grid container spacing={4}>
+                        <Grid container spacing={4}>
                             <Grid item key={2} xs={12} sm={6} md={4} >
                                 <Card className={classes.card}>
                                     <Grid container>
@@ -278,16 +319,16 @@ const Home = (props) => {
                                     </Grid>
                                 </Card>
                             </Grid>
-                        </Grid>*/}
+                        </Grid>
                     </Container>
                 </div>
-            </div>
-            <footer className={classes.footer}>
+            </div>*/}
+            {/*<footer className={classes.footer}>
                 <Typography variant="h6" align="center" gutterBottom>
 
                 </Typography>
 
-            </footer>
+            </footer>*/}
         </div>
 
     );
