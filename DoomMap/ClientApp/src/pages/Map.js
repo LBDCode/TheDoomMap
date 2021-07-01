@@ -1,13 +1,20 @@
 import React, { Component } from 'react';
-import { MapContainer, TileLayer, Marker, Popup, Polygon, FeatureGroup, LayerGroup, GeoJSON } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, CircleMarker, Popup, Tooltip, Polygon, FeatureGroup, LayerGroup, GeoJSON } from 'react-leaflet';
 import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import L from 'leaflet';
+import { fireIcon } from './fire.png';
+
 
 
 let DefaultIcon = L.icon({
-    iconUrl: icon,
-    shadowUrl: iconShadow
+    iconUrl: './fire.png',
+    iconSize: [38, 95],
+    iconAnchor: [22, 94],
+    popupAnchor: [-3, -76],
+    shadowUrl: './fire.png',
+    shadowSize: [68, 95],
+    shadowAnchor: [22, 94]
 });
 
 
@@ -57,7 +64,7 @@ export default class MapComponent extends Component {
                                     const point = [fire['geom']['coordinates'][1], fire['geom']['coordinates'][0]]
 
                                     return (
-                                        <Marker position={point} key={fire['gid']} icon={DefaultIcon}>
+                                        <CircleMarker center={point} key={fire['gid']} color={'red'}>
                                             <Popup>
                                                 <span>FIRE: {fire['incidentna']} - {fire['dailyacres']} acres</span>
                                                 <br />
@@ -65,7 +72,7 @@ export default class MapComponent extends Component {
                                                 <br />
                                                 <span>center: {point}</span>
                                             </Popup>
-                                        </Marker>
+                                        </CircleMarker>
                                     )
                                 }
 
@@ -227,15 +234,22 @@ export default class MapComponent extends Component {
                     </FeatureGroup>
                     <FeatureGroup>
                         {
-                            this.props.stormTrackPts.map(area => {
+                            this.props.stormTrackPts.map(point => {
 
-                                if (area && area['geom']) {
-
+                                if (point && point['geom']) {
+                                    const pointCoords = [point['geom']['coordinates'][1], point['geom']['coordinates'][0]]
                                     return (
-                                        < GeoJSON pathOptions={blueOptions} key={area['gid']} data={area['geom']} />
+                                        <CircleMarker center={pointCoords} key={point['gid']} color={'white'}>
+
+                                            <Tooltip direction="bottom" opacity={1} permanent>
+                                               {point['datelbl']}
+                                            </Tooltip>
+
+                                        </CircleMarker>
 
                                     )
                                 }
+
 
                             })
                         }
