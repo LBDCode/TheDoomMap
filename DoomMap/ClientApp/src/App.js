@@ -103,7 +103,7 @@ export default class App extends Component {
 
         API.getStormTrack("pts").then(response => response.json())
             .then(data => {
-                console.log("storms", data);
+                console.log("storm points", data);
                 this.setState({ stormTrackPts: data })
 
             })

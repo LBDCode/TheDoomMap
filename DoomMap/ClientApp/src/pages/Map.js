@@ -1,13 +1,20 @@
 import React, { Component } from 'react';
-import { MapContainer, TileLayer, Marker, Popup, Polygon, FeatureGroup, LayerGroup, GeoJSON } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, CircleMarker, Popup, Tooltip, Polygon, FeatureGroup, LayerGroup, GeoJSON } from 'react-leaflet';
 import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import L from 'leaflet';
+import { fireIcon } from './fire.png';
+
 
 
 let DefaultIcon = L.icon({
-    iconUrl: icon,
-    shadowUrl: iconShadow
+    iconUrl: './fire.png',
+    iconSize: [38, 95],
+    iconAnchor: [22, 94],
+    popupAnchor: [-3, -76],
+    shadowUrl: './fire.png',
+    shadowSize: [68, 95],
+    shadowAnchor: [22, 94]
 });
 
 
@@ -26,7 +33,16 @@ export default class MapComponent extends Component {
     render() {
 
 
-        const purpleOptions = { color: 'purple' }
+        const yellowOptions = { fillColor: 'yellow', stroke: false }
+        const orangeOptions = { fillColor: 'orange', stroke: false }
+        const redOptions = { fillColor: 'red', stroke: false }
+        const greenOptions = { fillColor: 'green', stroke: false }
+        const blueOptions = { fillColor: 'blue', stroke: false }
+        const purpleOptions = { fillColor: 'purple', stroke: false }
+        const blackOptions = { color: 'black' }
+
+
+
         return (
             this.props.gages ?
 
@@ -48,7 +64,7 @@ export default class MapComponent extends Component {
                                     const point = [fire['geom']['coordinates'][1], fire['geom']['coordinates'][0]]
 
                                     return (
-                                        <Marker position={point} key={fire['gid']} icon={DefaultIcon}>
+                                        <CircleMarker center={point} key={fire['gid']} color={'red'}>
                                             <Popup>
                                                 <span>FIRE: {fire['incidentna']} - {fire['dailyacres']} acres</span>
                                                 <br />
@@ -56,7 +72,7 @@ export default class MapComponent extends Component {
                                                 <br />
                                                 <span>center: {point}</span>
                                             </Popup>
-                                        </Marker>
+                                        </CircleMarker>
                                     )
                                 }
 
@@ -68,12 +84,11 @@ export default class MapComponent extends Component {
                     <FeatureGroup>
                         {
                             this.props.redFlag.map(area => {
-                                const red = { color: 'red' }
                                
                                 if (area && area['geom']) {
 
                                     return (
-                                        < GeoJSON pathOptions={red} key={area['gid']} data={area['geom']} />
+                                        < GeoJSON pathOptions={redOptions} key={area['gid']} data={area['geom']} />
 
                                     )
                                 }
@@ -85,13 +100,11 @@ export default class MapComponent extends Component {
                     <FeatureGroup>
                         {
                             this.props.heatAdvisory.map(area => {
-                                const orange = { color: 'orange' }
-
 
                                 if (area && area['geom']) {
 
                                     return (
-                                        < GeoJSON pathOptions={orange} key={area['gid']} data={area['geom']} />
+                                        < GeoJSON pathOptions={orangeOptions} key={area['gid']} data={area['geom']} />
 
                                     )
                                 }
@@ -103,13 +116,11 @@ export default class MapComponent extends Component {
                     <FeatureGroup>
                         {
                             this.props.floodWatch.map(area => {
-                                const blue = { color: 'blue' }
-
 
                                 if (area && area['geom']) {
 
                                     return (
-                                        < GeoJSON pathOptions={blue} key={area['gid']} data={area['geom']} />
+                                        < GeoJSON pathOptions={blueOptions} key={area['gid']} data={area['geom']} />
 
                                     )
                                 }
@@ -121,20 +132,17 @@ export default class MapComponent extends Component {
                     <FeatureGroup>
                         {
                             this.props.droughtConditions.map(area => {
-                                const yellow = {color: 'yellow'}
-                                const orange = { color: 'orange' }
-                                const red = { color: 'red' }
 
                                 function returnColor(dmScore) {
 
                                     let color;
 
                                     if (dmScore === 3) {
-                                        color = yellow;
+                                        color = yellowOptions;
                                     } else if (dmScore === 4) {
-                                        color = orange;
+                                        color = orangeOptions;
                                     } else if (dmScore === 5) {
-                                        color = red;
+                                        color = redOptions;
                                     }
                                     return color;
                                 }
@@ -156,29 +164,23 @@ export default class MapComponent extends Component {
                     <FeatureGroup>
                         {
                             this.props.stormConditions.map(area => {
-                                const yellow = { color: 'yellow' }
-                                const orange = { color: 'orange' }
-                                const red = { color: 'red' }
-                                const green = { color: 'green' }
-                                const blue = { color: 'blue' }
-                                const purple = {clor: 'purple'}
 
                                 function returnColor(max_ft) {
 
                                     let color;
 
                                     if (max_ft < 2) {
-                                        color = blue;
+                                        color = blueOptions;
                                     } else if (max_ft >= 2 && max_ft < 4) {
-                                        color = green;
+                                        color = greenOptions;
                                     } else if (max_ft >= 4 && max_ft < 6) {
-                                        color = yellow;
+                                        color = yellowOptions;
                                     } else if (max_ft >= 6 && max_ft < 8) {
-                                        color = orange;
+                                        color = orangeOptions;
                                     } else if (max_ft >= 8 && max_ft < 9.5) {
-                                        color = red;
+                                        color = redOptions;
                                     } else if (max_ft >= 9.5) {
-                                        color = purple;
+                                        color = purpleOptions;
                                     }
 
 
@@ -202,13 +204,11 @@ export default class MapComponent extends Component {
                     <FeatureGroup>
                         {
                             this.props.stormTrackLine.map(track => {
-                                const red = { color: 'red' }
-
 
                                 if (track && track['geom']) {
 
                                     return (
-                                        < GeoJSON pathOptions={red} key={track['gid']} data={track['geom']} />
+                                        < GeoJSON pathOptions={redOptions} key={track['gid']} data={track['geom']} />
 
                                     )
                                 }
@@ -219,13 +219,12 @@ export default class MapComponent extends Component {
                     <FeatureGroup>
                         {
                             this.props.stormTrackPgn.map(area => {
-                                const black = { color: 'black' }
 
 
                                 if (area && area['geom']) {
 
                                     return (
-                                        < GeoJSON pathOptions={black} key={area['gid']} data={area['geom']} />
+                                        < GeoJSON pathOptions={blackOptions} key={area['gid']} data={area['geom']} />
 
                                     )
                                 }
@@ -235,17 +234,22 @@ export default class MapComponent extends Component {
                     </FeatureGroup>
                     <FeatureGroup>
                         {
-                            this.props.stormTrackPts.map(area => {
-                                const blue = { color: 'blue' }
+                            this.props.stormTrackPts.map(point => {
 
-
-                                if (area && area['geom']) {
-
+                                if (point && point['geom']) {
+                                    const pointCoords = [point['geom']['coordinates'][1], point['geom']['coordinates'][0]]
                                     return (
-                                        < GeoJSON pathOptions={blue} key={area['gid']} data={area['geom']} />
+                                        <CircleMarker center={pointCoords} key={point['gid']} color={'white'}>
+
+                                            <Tooltip direction="bottom" opacity={1} permanent>
+                                               {point['datelbl']}
+                                            </Tooltip>
+
+                                        </CircleMarker>
 
                                     )
                                 }
+
 
                             })
                         }
