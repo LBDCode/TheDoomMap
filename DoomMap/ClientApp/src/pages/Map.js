@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { MapContainer, TileLayer, Marker, CircleMarker, Popup, Tooltip, Polygon, FeatureGroup, LayerGroup, GeoJSON } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, CircleMarker, LayersControl, Popup, Tooltip, Polygon, Polyline, FeatureGroup, LayerGroup, GeoJSON } from 'react-leaflet';
 import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import L from 'leaflet';
@@ -27,7 +27,15 @@ export default class MapComponent extends Component {
     }
 
 
+    returnStormTrackCoordinates = (geoJSONcoords) => {
 
+        let mappedCoords = geoJSONcoords.map(coord => {
+            const newCoord = [coord[1], coord[0]]
+            return newCoord
+        });
+
+        return mappedCoords;
+    }
 
 
     render() {
@@ -56,204 +64,219 @@ export default class MapComponent extends Component {
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     />
 
-                    <FeatureGroup>
-                        {
-                            this.props.fires.map(fire => {
+                    <LayersControl position="topright">
+                        <LayersControl.Overlay checked name="Fire Layer">
+                            <FeatureGroup>
+                                {
+                                    this.props.fires.map(fire => {
 
-                                if (fire && fire['geom'] && fire['dailyacres'] > 100) {
-                                    const point = [fire['geom']['coordinates'][1], fire['geom']['coordinates'][0]]
+                                        if (fire && fire['geom'] && fire['dailyacres'] > 100) {
+                                            const point = [fire['geom']['coordinates'][1], fire['geom']['coordinates'][0]]
 
-                                    return (
-                                        <CircleMarker center={point} key={fire['gid']} color={'red'}>
-                                            <Popup>
-                                                <span>FIRE: {fire['incidentna']} - {fire['dailyacres']} acres</span>
-                                                <br />
-                                                <span>Reported date: {fire['firediscov']}</span>
-                                                <br />
-                                                <span>center: {point}</span>
-                                            </Popup>
-                                        </CircleMarker>
-                                    )
+                                            return (
+                                                <CircleMarker center={point} key={fire['gid']} color={'red'}>
+                                                    <Popup>
+                                                        <span>FIRE: {fire['incidentna']} - {fire['dailyacres']} acres</span>
+                                                        <br />
+                                                        <span>Reported date: {fire['firediscov']}</span>
+                                                        <br />
+                                                        <span>center: {point}</span>
+                                                    </Popup>
+                                                </CircleMarker>
+                                            )
+                                        }
+
+                                    })
+
                                 }
 
-                            })
+                            </FeatureGroup>
+                        </LayersControl.Overlay>
+                        <LayersControl.Overlay checked name="Fire Warnings/Red Flag Areas">
 
-                        }
-
-                    </FeatureGroup>
-                    <FeatureGroup>
-                        {
-                            this.props.redFlag.map(area => {
+                            <FeatureGroup>
+                                {
+                                    this.props.redFlag.map(area => {
                                
-                                if (area && area['geom']) {
+                                        if (area && area['geom']) {
 
-                                    return (
-                                        < GeoJSON pathOptions={redOptions} key={area['gid']} data={area['geom']} />
+                                            return (
+                                                < GeoJSON pathOptions={redOptions} key={area['gid']} data={area['geom']} />
 
-                                    )
+                                            )
+                                        }
+
+                                    })
                                 }
+                            </FeatureGroup>
+                        </LayersControl.Overlay>
+                        <LayersControl.Overlay checked name="Heat Advisory">
 
-                            })
-                        }
-                    </FeatureGroup>
+                            <FeatureGroup>
+                                {
+                                    this.props.heatAdvisory.map(area => {
 
-                    <FeatureGroup>
-                        {
-                            this.props.heatAdvisory.map(area => {
+                                        if (area && area['geom']) {
 
-                                if (area && area['geom']) {
+                                            return (
+                                                < GeoJSON pathOptions={orangeOptions} key={area['gid']} data={area['geom']} />
 
-                                    return (
-                                        < GeoJSON pathOptions={orangeOptions} key={area['gid']} data={area['geom']} />
+                                            )
+                                        }
 
-                                    )
+                                    })
                                 }
+                            </FeatureGroup>
+                        </LayersControl.Overlay>
+                        <LayersControl.Overlay checked name="Flood Watch">
 
-                            })
-                        }
-                    </FeatureGroup>
+                            <FeatureGroup>
+                                {
+                                    this.props.floodWatch.map(area => {
 
-                    <FeatureGroup>
-                        {
-                            this.props.floodWatch.map(area => {
+                                        if (area && area['geom']) {
 
-                                if (area && area['geom']) {
+                                            return (
+                                                < GeoJSON pathOptions={blueOptions} key={area['gid']} data={area['geom']} />
 
-                                    return (
-                                        < GeoJSON pathOptions={blueOptions} key={area['gid']} data={area['geom']} />
+                                            )
+                                        }
 
-                                    )
+                                    })
                                 }
+                            </FeatureGroup>
+                        </LayersControl.Overlay>
+                        <LayersControl.Overlay checked name="Drought Conditions">
 
-                            })
-                        }
-                    </FeatureGroup>
+                            <FeatureGroup>
+                                {
+                                    this.props.droughtConditions.map(area => {
 
-                    <FeatureGroup>
-                        {
-                            this.props.droughtConditions.map(area => {
+                                        function returnColor(dmScore) {
 
-                                function returnColor(dmScore) {
+                                            let color;
 
-                                    let color;
+                                            if (dmScore === 3) {
+                                                color = yellowOptions;
+                                            } else if (dmScore === 4) {
+                                                color = orangeOptions;
+                                            } else if (dmScore === 5) {
+                                                color = redOptions;
+                                            }
+                                            return color;
+                                        }
 
-                                    if (dmScore === 3) {
-                                        color = yellowOptions;
-                                    } else if (dmScore === 4) {
-                                        color = orangeOptions;
-                                    } else if (dmScore === 5) {
-                                        color = redOptions;
-                                    }
-                                    return color;
+
+                                        if (area && area['geom'] && area.dm && area.dm > 2) {
+
+                                            return (
+                                                < GeoJSON pathOptions={returnColor(area.dm)} key={area['gid']} data={area['geom']} />
+
+                                            )
+                                        }
+
+                                    })
                                 }
+                            </FeatureGroup>
+                        </LayersControl.Overlay>
+                        <LayersControl.Overlay checked name="Named Storms">
+
+                            <FeatureGroup>
+                                {
+                                    this.props.stormConditions.map(area => {
+
+                                        function returnColor(max_ft) {
+
+                                            let color;
+
+                                            if (max_ft < 2) {
+                                                color = blueOptions;
+                                            } else if (max_ft >= 2 && max_ft < 4) {
+                                                color = greenOptions;
+                                            } else if (max_ft >= 4 && max_ft < 6) {
+                                                color = yellowOptions;
+                                            } else if (max_ft >= 6 && max_ft < 8) {
+                                                color = orangeOptions;
+                                            } else if (max_ft >= 8 && max_ft < 9.5) {
+                                                color = redOptions;
+                                            } else if (max_ft >= 9.5) {
+                                                color = purpleOptions;
+                                            }
 
 
-                                if (area && area['geom'] && area.dm && area.dm > 2) {
 
-                                    return (
-                                        < GeoJSON pathOptions={returnColor(area.dm)} key={area['gid']} data={area['geom']} />
+                                            return color;
+                                        }
 
-                                    )
+
+                                        if (area && area['geom'] && area.max_ft) {
+
+                                            return (
+                                                < GeoJSON pathOptions={returnColor(area.max_ft)} key={area['gid']} data={area['geom']} />
+
+                                            )
+                                        }
+
+                                    })
                                 }
+                            </FeatureGroup>
 
-                            })
-                        }
-                    </FeatureGroup>
+                            <FeatureGroup>
+                                {
+                                    this.props.stormTrackLine.map(track => {
 
+                                        if (track && track['geom']) {
+                                            let coords = this.returnStormTrackCoordinates(track['geom']['coordinates'][0])
+                                            return (
+                                                <Polyline
+                                                    positions={coords}
+                                                    color={'red'}
+                                                />
+                                            )
+                                        }
 
-                    <FeatureGroup>
-                        {
-                            this.props.stormConditions.map(area => {
-
-                                function returnColor(max_ft) {
-
-                                    let color;
-
-                                    if (max_ft < 2) {
-                                        color = blueOptions;
-                                    } else if (max_ft >= 2 && max_ft < 4) {
-                                        color = greenOptions;
-                                    } else if (max_ft >= 4 && max_ft < 6) {
-                                        color = yellowOptions;
-                                    } else if (max_ft >= 6 && max_ft < 8) {
-                                        color = orangeOptions;
-                                    } else if (max_ft >= 8 && max_ft < 9.5) {
-                                        color = redOptions;
-                                    } else if (max_ft >= 9.5) {
-                                        color = purpleOptions;
-                                    }
-
-
-
-                                    return color;
+                                    })
+                 
                                 }
+                            </FeatureGroup>
+                            <FeatureGroup>
+                                {
+                                    this.props.stormTrackPgn.map(area => {
 
+                                        if (area && area['geom']) {
 
-                                if (area && area['geom'] && area.max_ft) {
+                                            return (
+                                                < GeoJSON pathOptions={blackOptions} key={area['gid']} data={area['geom']} />
 
-                                    return (
-                                        < GeoJSON pathOptions={returnColor(area.max_ft)} key={area['gid']} data={area['geom']} />
+                                            )
+                                        }
 
-                                    )
+                                    })
                                 }
+                            </FeatureGroup>
+                            <FeatureGroup>
+                                {
+                                    this.props.stormTrackPts.map(point => {
 
-                            })
-                        }
-                    </FeatureGroup>
+                                        if (point && point['geom']) {
+                                            const pointCoords = [point['geom']['coordinates'][1], point['geom']['coordinates'][0]]
+                                            return (
+                                                <CircleMarker center={pointCoords} key={point['gid']} color={'white'}>
 
-                    <FeatureGroup>
-                        {
-                            this.props.stormTrackLine.map(track => {
+                                                    <Tooltip direction="bottom" opacity={1} permanent>
+                                                       {point['datelbl']}
+                                                    </Tooltip>
 
-                                if (track && track['geom']) {
+                                                </CircleMarker>
 
-                                    return (
-                                        < GeoJSON pathOptions={redOptions} key={track['gid']} data={track['geom']} />
+                                            )
+                                        }
 
-                                    )
+
+                                    })
                                 }
-
-                            })
-                        }
-                    </FeatureGroup>
-                    <FeatureGroup>
-                        {
-                            this.props.stormTrackPgn.map(area => {
-
-
-                                if (area && area['geom']) {
-
-                                    return (
-                                        < GeoJSON pathOptions={blackOptions} key={area['gid']} data={area['geom']} />
-
-                                    )
-                                }
-
-                            })
-                        }
-                    </FeatureGroup>
-                    <FeatureGroup>
-                        {
-                            this.props.stormTrackPts.map(point => {
-
-                                if (point && point['geom']) {
-                                    const pointCoords = [point['geom']['coordinates'][1], point['geom']['coordinates'][0]]
-                                    return (
-                                        <CircleMarker center={pointCoords} key={point['gid']} color={'white'}>
-
-                                            <Tooltip direction="bottom" opacity={1} permanent>
-                                               {point['datelbl']}
-                                            </Tooltip>
-
-                                        </CircleMarker>
-
-                                    )
-                                }
-
-
-                            })
-                        }
-                    </FeatureGroup>
+                            </FeatureGroup>
+                        </LayersControl.Overlay>
 
                     {/*<FeatureGroup>
                         {
@@ -275,7 +298,7 @@ export default class MapComponent extends Component {
                         }
 
                     </FeatureGroup>*/}
-
+                    </LayersControl>
                 </MapContainer>
 
                 :
