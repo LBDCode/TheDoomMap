@@ -87,7 +87,6 @@ export default class App extends Component {
 
         API.getStormTrack("line").then(response => response.json())
             .then(data => {
-                console.log("storm lines", data);
                 this.setState({ stormTrackLine: data })
 
             })
@@ -95,7 +94,6 @@ export default class App extends Component {
 
         API.getStormTrack("pgn").then(response => response.json())
             .then(data => {
-                console.log("storms", data);
                 this.setState({ stormTrackPgn: data })
 
             })
@@ -103,7 +101,6 @@ export default class App extends Component {
 
         API.getStormTrack("pts").then(response => response.json())
             .then(data => {
-                console.log("storm points", data);
                 this.setState({ stormTrackPts: data })
 
             })

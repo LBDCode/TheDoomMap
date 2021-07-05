@@ -65,7 +65,7 @@ export default class MapComponent extends Component {
                     />
 
                     <LayersControl position="topright">
-                        <LayersControl.Overlay checked name="Fire Layer">
+                        <LayersControl.Overlay checked name="Active Fires">
                             <FeatureGroup>
                                 {
                                     this.props.fires.map(fire => {
@@ -93,7 +93,6 @@ export default class MapComponent extends Component {
                             </FeatureGroup>
                         </LayersControl.Overlay>
                         <LayersControl.Overlay checked name="Fire Warnings/Red Flag Areas">
-
                             <FeatureGroup>
                                 {
                                     this.props.redFlag.map(area => {
@@ -110,7 +109,7 @@ export default class MapComponent extends Component {
                                 }
                             </FeatureGroup>
                         </LayersControl.Overlay>
-                        <LayersControl.Overlay checked name="Heat Advisory">
+                        <LayersControl.Overlay checked name="Heat Advisories">
 
                             <FeatureGroup>
                                 {
@@ -119,7 +118,7 @@ export default class MapComponent extends Component {
                                         if (area && area['geom']) {
 
                                             return (
-                                                < GeoJSON pathOptions={orangeOptions} key={area['gid']} data={area['geom']} />
+                                                < GeoJSON pathOptions={greenOptions} key={area['gid']} data={area['geom']} />
 
                                             )
                                         }
@@ -128,7 +127,7 @@ export default class MapComponent extends Component {
                                 }
                             </FeatureGroup>
                         </LayersControl.Overlay>
-                        <LayersControl.Overlay checked name="Flood Watch">
+                        <LayersControl.Overlay checked name="Flood Watch Areas">
 
                             <FeatureGroup>
                                 {
@@ -179,7 +178,7 @@ export default class MapComponent extends Component {
                                 }
                             </FeatureGroup>
                         </LayersControl.Overlay>
-                        <LayersControl.Overlay checked name="Named Storms">
+                        <LayersControl.Overlay checked name="Storm Surge">
 
                             <FeatureGroup>
                                 {
@@ -203,8 +202,6 @@ export default class MapComponent extends Component {
                                                 color = purpleOptions;
                                             }
 
-
-
                                             return color;
                                         }
 
@@ -220,6 +217,8 @@ export default class MapComponent extends Component {
                                     })
                                 }
                             </FeatureGroup>
+                        </LayersControl.Overlay>
+                        <LayersControl.Overlay checked name="Storm Track">
 
                             <FeatureGroup>
                                 {
@@ -230,7 +229,7 @@ export default class MapComponent extends Component {
                                             return (
                                                 <Polyline
                                                     positions={coords}
-                                                    color={'red'}
+                                                    color={'black'}
                                                 />
                                             )
                                         }
@@ -239,6 +238,9 @@ export default class MapComponent extends Component {
                  
                                 }
                             </FeatureGroup>
+                        </LayersControl.Overlay>
+                        <LayersControl.Overlay checked name="Storm Area">
+
                             <FeatureGroup>
                                 {
                                     this.props.stormTrackPgn.map(area => {
@@ -254,6 +256,9 @@ export default class MapComponent extends Component {
                                     })
                                 }
                             </FeatureGroup>
+                        </LayersControl.Overlay>
+                        <LayersControl.Overlay checked name="Storm Timeline">
+
                             <FeatureGroup>
                                 {
                                     this.props.stormTrackPts.map(point => {
