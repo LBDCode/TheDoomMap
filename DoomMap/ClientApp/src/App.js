@@ -7,6 +7,7 @@ import Map from './pages/Map'
 import { FetchData } from './components/FetchData';
 import { Counter } from './components/Counter';
 import API from './utils/api.js';
+import WORKERFUNCTION from './utils/workerFunctions';
 import './custom.css'
 
 export default class App extends Component {
@@ -48,6 +49,7 @@ export default class App extends Component {
         API.getFires().then(response => response.json())
             .then(data => {
                 this.setState({ fires: data })
+                WORKERFUNCTION.calcFireMetrics(data);
             })
             .catch(err => console.log(err));
 
