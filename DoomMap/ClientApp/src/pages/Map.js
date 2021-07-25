@@ -83,9 +83,7 @@ export default class MapComponent extends Component {
                                                 </CircleMarker>
                                             )
                                         }
-
                                     })
-
                                 }
 
                             </FeatureGroup>

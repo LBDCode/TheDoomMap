@@ -1,4 +1,5 @@
 
+import L from 'leaflet';
 
 export default {
     calcFireMetrics: function (fireData) {
@@ -20,10 +21,16 @@ export default {
 
         return ({ 'numberFires': numberFires, 'dailyAcres': dailyAcres, 'largestFire': largestFire })
     },
-    calcAreaMetrics: function (floodData) {
+    calcFloodMetrics: function (areaData) {
+        let numberFloodWarnings = areaData.length;
 
-        let floodWarnings = 0;
+        return ({ 'numberFloodWarnings': numberFloodWarnings})
 
+    },
+    calcRedFlagMetrics: function (areaData) {
+        let numberRedFlagAdvisories = areaData.length;
+
+        console.log(areaData)
 
     }
 

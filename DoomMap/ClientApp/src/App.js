@@ -56,6 +56,7 @@ export default class App extends Component {
         API.getAdvisoryAreas("redflag").then(response => response.json())
             .then(data => {
                 this.setState({ redFlag: data })
+                WORKERFUNCTION.calcRedFlagMetrics(data)
             })
             .catch(err => console.log(err));
 
@@ -69,7 +70,7 @@ export default class App extends Component {
         API.getAdvisoryAreas("floodwatch").then(response => response.json())
             .then(data => {
                 this.setState({ floodWatch: data })
-
+                WORKERFUNCTION.calcFloodMetrics(data)
             })
             .catch(err => console.log(err));
 
