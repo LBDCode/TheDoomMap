@@ -97,6 +97,7 @@ export default class App extends Component {
 
         API.getStormTrack("pgn").then(response => response.json())
             .then(data => {
+                console.log(data)
                 this.setState({ stormTrackPgn: data })
 
             })

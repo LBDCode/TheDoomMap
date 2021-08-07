@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30717.126
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DoomMap", "DoomMap\DoomMap.csproj", "{A2D6C0C1-63B7-4222-831C-4702A945D73D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DoomMap", "DoomMap\DoomMap.csproj", "{A2D6C0C1-63B7-4222-831C-4702A945D73D}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{F493B0B3-47B7-4893-90FD-F546565A38DF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{A2D6C0C1-63B7-4222-831C-4702A945D73D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A2D6C0C1-63B7-4222-831C-4702A945D73D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A2D6C0C1-63B7-4222-831C-4702A945D73D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F493B0B3-47B7-4893-90FD-F546565A38DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F493B0B3-47B7-4893-90FD-F546565A38DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F493B0B3-47B7-4893-90FD-F546565A38DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F493B0B3-47B7-4893-90FD-F546565A38DF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
