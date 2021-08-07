@@ -7,6 +7,7 @@ import Map from './pages/Map'
 import { FetchData } from './components/FetchData';
 import { Counter } from './components/Counter';
 import API from './utils/api.js';
+import WORKERFUNCTION from './utils/workerFunctions';
 import './custom.css'
 
 export default class App extends Component {
@@ -48,12 +49,14 @@ export default class App extends Component {
         API.getFires().then(response => response.json())
             .then(data => {
                 this.setState({ fires: data })
+                WORKERFUNCTION.calcFireMetrics(data);
             })
             .catch(err => console.log(err));
 
         API.getAdvisoryAreas("redflag").then(response => response.json())
             .then(data => {
                 this.setState({ redFlag: data })
+                WORKERFUNCTION.calcRedFlagMetrics(data)
             })
             .catch(err => console.log(err));
 
@@ -67,7 +70,7 @@ export default class App extends Component {
         API.getAdvisoryAreas("floodwatch").then(response => response.json())
             .then(data => {
                 this.setState({ floodWatch: data })
-
+                WORKERFUNCTION.calcFloodMetrics(data)
             })
             .catch(err => console.log(err));
 
@@ -94,6 +97,7 @@ export default class App extends Component {
 
         API.getStormTrack("pgn").then(response => response.json())
             .then(data => {
+                console.log(data)
                 this.setState({ stormTrackPgn: data })
 
             })

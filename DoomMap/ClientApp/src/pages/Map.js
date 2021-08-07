@@ -53,8 +53,6 @@ export default class MapComponent extends Component {
 
         return (
             this.props.gages ?
-
-
                 <MapContainer
                     center={[40.4958869189588, -99.2314387964737]}
                     zoom={4}
@@ -85,9 +83,7 @@ export default class MapComponent extends Component {
                                                 </CircleMarker>
                                             )
                                         }
-
                                     })
-
                                 }
 
                             </FeatureGroup>
@@ -276,33 +272,10 @@ export default class MapComponent extends Component {
 
                                             )
                                         }
-
-
                                     })
                                 }
                             </FeatureGroup>
                         </LayersControl.Overlay>
-
-                    {/*<FeatureGroup>
-                        {
-                              this.props.gages.map(gage => {
-
-                            if (gage && gage['location_geom']) {
-                                const point = [gage['location_geom']['coordinates'][1], gage['location_geom']['coordinates'][0]]
-
-                                return (
-                                    <Marker position={point} key={gage['site_no']} icon={DefaultIcon}>
-                                        <Popup>
-                                            <span>GAGE: {gage['site_no']} - {gage['station_nm']}</span>
-                                        </Popup>
-                                    </Marker>
-                                )
-                            }
-
-                        })
-                        }
-
-                    </FeatureGroup>*/}
                     </LayersControl>
                 </MapContainer>
 

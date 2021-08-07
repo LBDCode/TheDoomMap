@@ -19,12 +19,6 @@ namespace DoomMap.Controllers
             _context = context;
         }
 
-        //private readonly ILogger<GagesController> _logger;
-
-        //public GagesController(ILogger<GagesController> logger)
-        //{
-        //    _logger = logger;
-        //}
 
         [HttpGet]
         public IActionResult Get()

@@ -1,0 +1,11 @@
+version: '3.4'
+
+services:
+  doommap:
+    image: ${DOCKER_REGISTRY-}doommap
+    build:
+      context: .
+      dockerfile: DoomMap/Dockerfile
+    ports:
+      - '5000:80'
+      - '5001:443'
