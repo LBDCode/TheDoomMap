@@ -7,6 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DoomMap", "DoomMap\DoomMap.
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{F493B0B3-47B7-4893-90FD-F546565A38DF}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "dbscripts", "dbscripts", "{3B18543E-7584-4F22-94DC-2CF8FFF5F139}"
+	ProjectSection(SolutionItems) = preProject
+		seed.sql = seed.sql
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

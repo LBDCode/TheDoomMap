@@ -1,8 +1,10 @@
+using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -52,14 +54,22 @@ namespace DoomMap
             });
 
             services.AddSingleton(NtsGeometryServices.Instance);
-            var connectionString = Configuration["PostgreSql:ConnectionString"];
-            var dbPassword = Configuration["PostgreSql:DbPassword"];
-            var builder = new NpgsqlConnectionStringBuilder(connectionString)
-            {
-                Password = dbPassword
-            };
+            //var connectionString = Configuration["PostgreSql:ConnectionString"];
+            //var dbPassword = Configuration["PostgreSql:DbPassword"];
+            //var builder = new NpgsqlConnectionStringBuilder(connectionString)
+            //{
+            //    Password = dbPassword
+            //};
 
-            services.AddDbContext<DoomContext>(options => options.UseNpgsql(builder.ConnectionString, o => o.UseNetTopologySuite()));
+            var connectionString = Environment.GetEnvironmentVariable("DB_CONNECTION_STRING");
+            services.AddDbContext<DoomContext>(options =>
+                options.UseNpgsql(
+                    connectionString, o => o.UseNetTopologySuite()
+                )
+            );
+
+
+            //services.AddDbContext<DoomContext>(options => options.UseNpgsql(builder.ConnectionString, o => o.UseNetTopologySuite()));
 
 
 
