@@ -1,11 +1,39 @@
 version: '3.4'
 
+networks:
+  doommap-dev:
+    driver: bridge
+
 services:
   doommap:
     image: ${DOCKER_REGISTRY-}doommap
+    depends_on:
+      - "postgres_image"
     build:
       context: .
       dockerfile: DoomMap/Dockerfile
     ports:
       - '5000:80'
       - '5001:443'
+    environment:
+      DB_CONNECTION_STRING: "host=postgres_image;port=5432;database=DoomMap;username=doommapuser;password=doommappw"
+    networks:
+      - doommap-dev
+
+  postgres_image:
+    image: postgis/postgis:latest
+    ports:
+      - "5432"
+    restart: always
+    volumes:
+      - db_volume:/var/lib/postgresql/data
+      - "C:/Users/lduggan/source/repos/DoomMap/dbscripts/seed.sql:/docker-entrypoint-initdb.d/seed.sql"
+    environment:
+      POSTGRES_USER: "doommapuser"
+      POSTGRES_PASSWORD: "doommappw"
+      POSTGRES_DB: "DoomMap"
+    networks:
+      - doommap-dev
+
+volumes:
+  db_volume:
