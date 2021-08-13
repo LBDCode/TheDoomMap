@@ -12,15 +12,17 @@ namespace DoomMap.Entities
     {
 
         [Key]
-        public int gid { get; set; }
+        public int objectid { get; set; }
 
         public Geometry geom { get; set; }
 
         public Decimal? dailyacres { get; set; }
 
-        public DateTime? firediscov { get; set; }
+        public DateTime? firediscoverydatetime { get; set; }
 
-        public string? incidentna { get; set; }
+        public string incidentname { get; set; }
+
+        public string incidentshortdescription { get; set; }
 
     }
 }
