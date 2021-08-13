@@ -38,16 +38,14 @@ namespace DoomMap
         {
             modelBuilder.HasPostgresExtension("postgis");
             modelBuilder.Entity<Gage>().ToTable("gages");
-            modelBuilder.Entity<Fire>().ToTable("wfigs_current_fires");
+            modelBuilder.Entity<Fire>().ToTable("current_fires");
             modelBuilder.Entity<AdvisoryArea>().ToTable("advisory_areas");
             modelBuilder.Entity<Drought>().ToTable("drought_conditions");
             modelBuilder.Entity<Storm>().ToTable("storm_conditions");
             modelBuilder.Entity<StormLine>().ToTable("storm_track_lin");
             modelBuilder.Entity<StormPgn>().ToTable("storm_track_pgn");
             modelBuilder.Entity<StormPts>().ToTable("storm_track_pts");
-
         }
-
 
     }
 }

@@ -40,15 +40,16 @@ export default class App extends Component {
         //this.setState({ incidents: incidents });
 
 
-        API.getGages().then(response => response.json())
-            .then(data => {
-                this.setState({ gages: data})
-            })
-            .catch(err => console.log(err));
+        //API.getGages().then(response => response.json())
+        //    .then(data => {
+        //        this.setState({ gages: data})
+        //    })
+        //    .catch(err => console.log(err));
 
         API.getFires().then(response => response.json())
             .then(data => {
                 this.setState({ fires: data })
+                console.log(data)
                 WORKERFUNCTION.calcFireMetrics(data);
             })
             .catch(err => console.log(err));
@@ -77,16 +78,16 @@ export default class App extends Component {
         API.getDroughtConditions().then(response => response.json())
             .then(data => {
                 this.setState({ droughtConditions: data })
-
+                console.log(data)
             })
             .catch(err => console.log(err));
 
-        API.getStormConditions().then(response => response.json())
-            .then(data => {
-                this.setState({ stormConditions: data })
+        //API.getStormConditions().then(response => response.json())
+        //    .then(data => {
+        //        this.setState({ stormConditions: data })
 
-            })
-            .catch(err => console.log(err));
+        //    })
+        //    .catch(err => console.log(err));
 
         API.getStormTrack("line").then(response => response.json())
             .then(data => {

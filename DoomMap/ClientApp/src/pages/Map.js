@@ -8,14 +8,18 @@ import { fireIcon } from './fire.png';
 
 
 let DefaultIcon = L.icon({
-    iconUrl: './fire.png',
-    iconSize: [38, 95],
-    iconAnchor: [22, 94],
-    popupAnchor: [-3, -76],
-    shadowUrl: './fire.png',
-    shadowSize: [68, 95],
-    shadowAnchor: [22, 94]
+    iconUrl: require('./fire.png'),
+    iconRetinaUrl: require('./fire.png'),
+    iconAnchor: null,
+    popupAnchor: null,
+    shadowUrl: null,
+    shadowSize: null,
+    shadowAnchor: null,
+    iconSize: new L.Point(60, 75),
+    className: 'dummy'
 });
+
+
 
 
 export default class MapComponent extends Component {
@@ -68,19 +72,30 @@ export default class MapComponent extends Component {
                                 {
                                     this.props.fires.map(fire => {
 
-                                        if (fire && fire['geom'] && fire['dailyacres'] > 100) {
+                                        if (fire && fire['geom'] && fire['dailyacres'] > 500) {
                                             const point = [fire['geom']['coordinates'][1], fire['geom']['coordinates'][0]]
-
                                             return (
-                                                <CircleMarker center={point} key={fire['gid']} color={'red'}>
+                                                /*<CircleMarker center={point} key={fire['objectid']} color={'red'}>
                                                     <Popup>
-                                                        <span>FIRE: {fire['incidentna']} - {fire['dailyacres']} acres</span>
+                                                        <span>FIRE: {fire['incidentname']} - {fire['dailyacres']} acres</span>
                                                         <br />
-                                                        <span>Reported date: {fire['firediscov']}</span>
+                                                        <span>Reported date: {fire['firediscoverydatetime']}</span>
                                                         <br />
-                                                        <span>center: {point}</span>
+                                                        <span>Description: {fire['incidentshortdescription']}</span>
+                                                        <br />
                                                     </Popup>
-                                                </CircleMarker>
+                                                </CircleMarker>*/
+
+                                                <Marker icon={DefaultIcon} key={fire['objectid']} position={point}>
+                                                    <Popup>
+                                                        <span>FIRE: {fire['incidentname']} - {fire['dailyacres']} acres</span>
+                                                        <br />
+                                                        <span>Reported date: {fire['firediscoverydatetime']}</span>
+                                                        <br />
+                                                        <span>Description: {fire['incidentshortdescription']}</span>
+                                                        <br />
+                                                    </Popup>
+                                                </Marker>
                                             )
                                         }
                                     })
