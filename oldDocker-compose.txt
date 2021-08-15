@@ -13,9 +13,8 @@ services:
       context: .
       dockerfile: DoomMap/Dockerfile
     ports:
-      - '5000:5000'
-    volumes:
-      - './:/app' 
+      - '5000:80'
+      - '5001:443'
     environment:
       DB_CONNECTION_STRING: "host=postgres_image;port=5432;database=DoomMap;username=doommapuser;password=doommappw"
     networks:
