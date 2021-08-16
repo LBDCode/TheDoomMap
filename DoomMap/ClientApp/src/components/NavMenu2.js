@@ -30,27 +30,27 @@ const useStyles = makeStyles(theme => ({
         padding: 0,
     },
     appbar: {
-        height: '78px',
-        minHeight: '78px',
+        height: '90px',
+        minHeight: '90px',
         backgroundColor: '#343a40',
         color: '#f8f8f8'
     },
     bottomtoolbar: {
         padding: 0,
-        height: '78px',
-        minHeight: '78px',
+        height: '90px',
+        minHeight: '90px',
     },
     menuButton: {
         margin: 0,
         padding: 0
     },
     leftlinks: {
-        color: '#adb5bd',
-        fontSize: '16px',
+        color: '#9C510C',
+        fontSize: '48px',
         padding: '6px 7px',
     },
     rightlinks: {
-        color: '#adb5bd',
+        color: '#fff',
         fontSize: '14px',
         paddingRight: '5px',
         paddingLeft: '5px'
@@ -185,11 +185,6 @@ export default function NavMenu() {
                     <SvgIcon className={classes.mobileIcon} > <HomeWorkOutlinedIcon /></SvgIcon ><span className={classes.mobileLink}>COUNTER</span>
                 </Link>
             </MenuItem>
-            <MenuItem>
-                <Link to={"/performance"} href="/fetch-data">
-                    <SvgIcon className={classes.mobileIcon} > <TimelineOutlinedIcon /></SvgIcon><span className={classes.mobileLink}>FETCH DATA</span>
-                </Link>
-            </MenuItem>
         </Menu>
     );
 
@@ -214,14 +209,12 @@ export default function NavMenu() {
                     <Link to={"/"} href="/">
                         <Typography className={ classes.leftlinks } variant="h3" noWrap>
                             The Doom Map
-                    </Typography>
+                        </Typography>
                     </Link>
                     <div className={classes.grow} />
                     <div className={classes.sectionDesktop}>
                         <Link className={classes.rightlinks} to={"/"} href="/">Home</Link>
                         <Link className={classes.rightlinks} to={"/map"} href="/map">Map</Link>
-                        <Link className={classes.rightlinks} to={"/counter"} href="/counter">Counter</Link>
-                        <Link className={classes.rightlinks}to={"/fetch-data"} href="/fetch-data">Fetch Data</Link>
                     </div>
                     <div className={classes.sectionMobile}>
                         <IconButton

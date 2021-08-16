@@ -12,13 +12,15 @@ import TimelineOutlinedIcon from '@material-ui/icons/TimelineOutlined';
 import FlashOnOutlinedIcon from '@material-ui/icons/FlashOnOutlined';
 import { Link } from "react-router-dom";
 import heroOverlay from '../pages/landing.PNG';
+import Icon from '@mdi/react'
+import { mdiHomeFlood, mdiAlienOutline, mdiWeatherHurricane, mdiFire } from '@mdi/js'
 
 const styles = theme => ({
     root: {
         position: 'absolute',
         width: '100%',
-        top: '64px',
-        height: 'calc(100vh - 64px)',
+        top: '90px',
+        height: 'calc(100vh - 90px)',
         backgroundColor: '#212529',
     },
     appbar: {
@@ -38,6 +40,8 @@ const styles = theme => ({
     },
     heroContent: {
         height: '60vh',
+        minHeight: '360px',
+        maxHeight: '600px',
         marginTop: '80px',
         backgroundColor: '#343a40',
         padding: '8% 10% 20% 5%',
@@ -58,18 +62,18 @@ const styles = theme => ({
         }
     },
     heroTextLarge: {
-        color: "#ff6307!important",
+        color: "#fff!important",
         fontWeight: '700!important',
         fontSize: '2.9rem!important'
     },
     heroTextSmall: {
-        color: "#adb5bd!important",
+        color: "#fff!important",
         fontSize: '1.5rem!important'
     },
     heroButton:
-    {            
+    {
         marginTop: '20px',
-        zIndex:'10000',
+        zIndex: '10000',
         boxShadow: 'none',
         textTransform: 'none',
         fontSize: 16,
@@ -135,6 +139,12 @@ const styles = theme => ({
         paddingBottom: '100px',
         backgroundColor: '#212529',
     },
+    iconGrid: {
+        marginTop: '30px'
+    },
+    iconGridItem: {
+        textAlign: 'center!important'
+    },
     card: {
         height: '100%',
         display: 'flex',
@@ -160,7 +170,7 @@ const styles = theme => ({
     },
     cardIcon: {
         margin: '0 auto',
-        color: "#999",
+        color: "#fff",
         fontSize: '2.5rem',
         [theme.breakpoints.down("lg")]: {
             fontSize: '2rem',
@@ -217,15 +227,37 @@ const Home = (props) => {
             <Container maxWidth={false} className={classes.heroContent}>
                 <Grid container spacing={4}>
                     <Grid item key={1} xs={12} sm={12} md={4}>
-                        <Typography className={classes.heroTextLarge} component="h1" variant="h2" align="left" gutterBottom>
-                            The Doom Map
-                        </Typography>
-                        <Typography className={classes.heroTextSmall} variant="h5" align="left" paragraph>
+                        <Typography className={classes.heroTextLarge} variant="h5" align="right" paragraph>
                             So, what's dooming the United States today?
                         </Typography>
                         <Button variant="outlined" className={classes.heroButton} href="/map">
                             Let's find out!
                         </Button>
+                    </Grid>
+                </Grid>
+               
+            </Container>
+            <Container className={classes.iconGrid}>
+                <Grid container spacing={4}>
+                    <Grid item key={1} xs={3} className={classes.iconGridItem}>
+                        <Icon path={mdiFire}
+                            size={'4rem'}
+                            color="#343a40" />
+                    </Grid>
+                    <Grid item key={2} xs={3} className={classes.iconGridItem}>
+                        <Icon path={mdiWeatherHurricane}
+                            size={'4rem'}
+                            color="#343a40" />
+                    </Grid>
+                    <Grid item key={3} xs={3} className={classes.iconGridItem}>
+                        <Icon path={mdiHomeFlood}
+                            size={'4rem'}
+                            color="#343a40" />
+                    </Grid>
+                    <Grid item key={4} xs={3} className={classes.iconGridItem}>
+                        <Icon path={mdiAlienOutline}
+                            size={'4rem'}
+                            color="#343a40" />
                     </Grid>
                 </Grid>
             </Container>
@@ -323,12 +355,6 @@ const Home = (props) => {
                     </Container>
                 </div>
             </div>*/}
-            {/*<footer className={classes.footer}>
-                <Typography variant="h6" align="center" gutterBottom>
-
-                </Typography>
-
-            </footer>*/}
         </div>
 
     );
