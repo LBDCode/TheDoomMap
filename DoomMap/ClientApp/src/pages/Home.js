@@ -42,12 +42,13 @@ const styles = theme => ({
         height: '60vh',
         minHeight: '360px',
         maxHeight: '600px',
-        marginTop: '80px',
+        marginTop: '60px',
         backgroundColor: '#343a40',
-        padding: '8% 10% 20% 5%',
+        padding: '8% 15% 20% 5%',
         paddingBottom: '140px!important',
         position: 'relative',
         zIndex: '3000',
+        textAlign: 'left',
         '&::after': {
             content: "''",
             backgroundImage: `url(${heroOverlay})`,
@@ -64,7 +65,7 @@ const styles = theme => ({
     heroTextLarge: {
         color: "#fff!important",
         fontWeight: '700!important',
-        fontSize: '2.9rem!important'
+        fontSize: '2.3rem!important'
     },
     heroTextSmall: {
         color: "#fff!important",
@@ -72,27 +73,28 @@ const styles = theme => ({
     },
     heroButton:
     {
-        marginTop: '20px',
+        marginTop: '40px',
+        marginRight: '30px',
         zIndex: '10000',
         boxShadow: 'none',
         textTransform: 'none',
-        fontSize: 16,
-        padding: '6px 12px',
+        fontSize: '1.7rem',
+        padding: '8px 18px',
         border: '2px solid',
         lineHeight: 1.5,
         backgroundColor: '#ff630700',
-        borderColor: '#ff6307',
-        color: '#ff6307',
+        borderColor: '#d0550d',
+        color: '#d0550d',
         '&:hover': {
-            backgroundColor: '#ff6307',
-            borderColor: '#ff6307',
+            backgroundColor: '#d0550d',
+            borderColor: '#d0550d',
             boxShadow: 'none',
             color: '#fff'
         },
         '&:active': {
             boxShadow: 'none',
-            backgroundColor: '#ff6307',
-            borderColor: '#ff6307',
+            backgroundColor: '#d0550d',
+            borderColor: '#d0550d',
             color: '#fff'
 
         },
@@ -225,19 +227,18 @@ const Home = (props) => {
     return (
         <div className={classes.root}>
             <Container maxWidth={false} className={classes.heroContent}>
-                <Grid container spacing={4}>
-                    <Grid item key={1} xs={12} sm={12} md={4}>
-                        <Typography className={classes.heroTextLarge} variant="h5" align="right" paragraph>
-                            So, what's dooming the United States today?
-                        </Typography>
-                        <Button variant="outlined" className={classes.heroButton} href="/map">
-                            Let's find out!
-                        </Button>
-                    </Grid>
-                </Grid>
+                <Typography className={classes.heroTextLarge} variant="h5" align="left" paragraph>
+                    So, what's dooming the United
+                    </Typography>
+                <Typography className={classes.heroTextLarge} variant="h5" align="left" paragraph>
+                    States today?
+                    </Typography>
+                <Button variant="outlined" className={classes.heroButton} href="/map">
+                    Let's find out!
+                </Button>
                
             </Container>
-            <Container className={classes.iconGrid}>
+            <Container maxWidth={false} className={classes.iconGrid}>
                 <Grid container spacing={4}>
                     <Grid item key={1} xs={3} className={classes.iconGridItem}>
                         <Icon path={mdiFire}

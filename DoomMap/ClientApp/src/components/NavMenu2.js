@@ -45,9 +45,9 @@ const useStyles = makeStyles(theme => ({
         padding: 0
     },
     leftlinks: {
-        color: '#9C510C',
-        fontSize: '48px',
-        padding: '6px 7px',
+        color: '#ff6307',
+        fontSize: '42px',
+        padding: '6px 10px',
     },
     rightlinks: {
         color: '#fff',
