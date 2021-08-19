@@ -21,7 +21,7 @@ const styles = theme => ({
         width: '100%',
         top: '90px',
         height: 'calc(100vh - 90px)',
-        backgroundColor: '#212529',
+        backgroundColor: '#111',
     },
     appbar: {
         height: '30px',
@@ -43,12 +43,12 @@ const styles = theme => ({
         minHeight: '360px',
         maxHeight: '600px',
         marginTop: '60px',
-        backgroundColor: '#343a40',
-        padding: '8% 15% 20% 5%',
+        backgroundColor: '#212529',
+        padding: '8% 20% 20% 5%',
         paddingBottom: '140px!important',
         position: 'relative',
         zIndex: '3000',
-        textAlign: 'left',
+        textAlign: 'right',
         '&::after': {
             content: "''",
             backgroundImage: `url(${heroOverlay})`,
@@ -74,7 +74,7 @@ const styles = theme => ({
     heroButton:
     {
         marginTop: '40px',
-        marginRight: '30px',
+        marginRight: '50px',
         zIndex: '10000',
         boxShadow: 'none',
         textTransform: 'none',
@@ -142,7 +142,7 @@ const styles = theme => ({
         backgroundColor: '#212529',
     },
     iconGrid: {
-        marginTop: '30px'
+        marginTop: '40px'
     },
     iconGridItem: {
         textAlign: 'center!important'
@@ -227,10 +227,10 @@ const Home = (props) => {
     return (
         <div className={classes.root}>
             <Container maxWidth={false} className={classes.heroContent}>
-                <Typography className={classes.heroTextLarge} variant="h5" align="left" paragraph>
+                <Typography className={classes.heroTextLarge} variant="h5" align="right" paragraph>
                     So, what's dooming the United
                     </Typography>
-                <Typography className={classes.heroTextLarge} variant="h5" align="left" paragraph>
+                <Typography className={classes.heroTextLarge} variant="h5" align="right" paragraph>
                     States today?
                     </Typography>
                 <Button variant="outlined" className={classes.heroButton} href="/map">
@@ -242,23 +242,23 @@ const Home = (props) => {
                 <Grid container spacing={4}>
                     <Grid item key={1} xs={3} className={classes.iconGridItem}>
                         <Icon path={mdiFire}
-                            size={'4rem'}
-                            color="#343a40" />
+                            size={'3.8rem'}
+                            color="#495057" />
                     </Grid>
                     <Grid item key={2} xs={3} className={classes.iconGridItem}>
                         <Icon path={mdiWeatherHurricane}
-                            size={'4rem'}
-                            color="#343a40" />
+                            size={'3.8rem'}
+                            color="#495057" />
                     </Grid>
                     <Grid item key={3} xs={3} className={classes.iconGridItem}>
                         <Icon path={mdiHomeFlood}
-                            size={'4rem'}
-                            color="#343a40" />
+                            size={'3.8rem'}
+                            color="#495057" />
                     </Grid>
                     <Grid item key={4} xs={3} className={classes.iconGridItem}>
                         <Icon path={mdiAlienOutline}
-                            size={'4rem'}
-                            color="#343a40" />
+                            size={'3.8rem'}
+                            color="#495057" />
                     </Grid>
                 </Grid>
             </Container>

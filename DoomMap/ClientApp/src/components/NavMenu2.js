@@ -32,8 +32,8 @@ const useStyles = makeStyles(theme => ({
     appbar: {
         height: '90px',
         minHeight: '90px',
-        backgroundColor: '#343a40',
-        color: '#f8f8f8'
+        backgroundColor: '#111',
+        color: '#fff'
     },
     bottomtoolbar: {
         padding: 0,
@@ -45,14 +45,15 @@ const useStyles = makeStyles(theme => ({
         padding: 0
     },
     leftlinks: {
-        color: '#ff6307',
-        fontSize: '42px',
-        padding: '6px 10px',
+        color: '#dee2e6;',
+        fontSize: '32px',
+        fontWeight: '600',
+        padding: '6px 20px',
     },
     rightlinks: {
         color: '#fff',
         fontSize: '14px',
-        paddingRight: '5px',
+        paddingRight: '20px',
         paddingLeft: '5px'
     },
     title: {
@@ -72,15 +73,6 @@ const useStyles = makeStyles(theme => ({
             marginLeft: theme.spacing(3),
             width: 'auto',
         },
-    },
-    meckIcon: {
-        height: '60px',
-        margin: '8px 0px 8px 8px',
-    },
-    stormwaterIcon: {
-        height: '40px',
-        margin: '8px',
-        padding: '0'
     },
     searchIcon: {
         width: theme.spacing(7),
@@ -207,7 +199,7 @@ export default function NavMenu() {
                     >
                     </IconButton>
                     <Link to={"/"} href="/">
-                        <Typography className={ classes.leftlinks } variant="h3" noWrap>
+                        <Typography className={ classes.leftlinks } noWrap>
                             The Doom Map
                         </Typography>
                     </Link>
