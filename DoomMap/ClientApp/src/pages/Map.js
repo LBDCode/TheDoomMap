@@ -10,8 +10,8 @@ import { fireIcon } from './fire.png';
 let DefaultIcon = L.icon({
     iconUrl: require('./fire.png'),
     iconRetinaUrl: require('./fire.png'),
-    iconAnchor: null,
-    popupAnchor: null,
+    iconAnchor: new L.Point(0, 0),
+    popupAnchor: new L.Point(16, 0),
     shadowUrl: null,
     shadowSize: null,
     shadowAnchor: null,
@@ -73,28 +73,21 @@ export default class MapComponent extends Component {
                                     this.props.fires.map(fire => {
 
                                         if (fire && fire['geom'] && fire['dailyacres'] > 500) {
-                                            const point = [fire['geom']['coordinates'][1], fire['geom']['coordinates'][0]]
-                                            return (
-                                                /*<CircleMarker center={point} key={fire['objectid']} color={'red'}>
-                                                    <Popup>
-                                                        <span>FIRE: {fire['incidentname']} - {fire['dailyacres']} acres</span>
-                                                        <br />
-                                                        <span>Reported date: {fire['firediscoverydatetime']}</span>
-                                                        <br />
-                                                        <span>Description: {fire['incidentshortdescription']}</span>
-                                                        <br />
-                                                    </Popup>
-                                                </CircleMarker>*/
 
+                                            const point = [fire['geom']['coordinates'][1], fire['geom']['coordinates'][0]]
+
+                                            return (
                                                 <Marker icon={DefaultIcon} key={fire['objectid']} position={point}>
-                                                    <Popup>
-                                                        <span>FIRE: {fire['incidentname']} - {fire['dailyacres']} acres</span>
+                                                    <Tooltip sticky>
+                                                        <span>Fire: {fire['incidentname'] ? fire['incidentname']  : 'N/A'}</span>                                                           
                                                         <br />
-                                                        <span>Reported date: {fire['firediscoverydatetime']}</span>
+                                                        <span>Daily acres burned: {fire['dailyacres'] ? fire['dailyacres'] : 'N/A'} acres</span>     
                                                         <br />
-                                                        <span>Description: {fire['incidentshortdescription']}</span>
+                                                        <span>Reported date: {fire['firediscoverydatetime'] ? fire['firediscoverydatetime'] : 'N/A'}</span>
                                                         <br />
-                                                    </Popup>
+                                                        <span>Description: {fire['incidentshortdescription'] ? fire['incidentshortdescription'] : 'N/A'}</span>
+                                                        <br />
+                                                    </Tooltip>
                                                 </Marker>
                                             )
                                         }
@@ -109,10 +102,15 @@ export default class MapComponent extends Component {
                                     this.props.redFlag.map(area => {
                                
                                         if (area && area['geom']) {
-
                                             return (
-                                                < GeoJSON pathOptions={redOptions} key={area['gid']} data={area['geom']} />
-
+                                                < GeoJSON pathOptions={redOptions} key={area['gid']} data={area['geom']}>
+                                                    <Tooltip sticky>
+                                                        <span>{area['prod_type']}</span>
+                                                        <br />   
+                                                        <span>In Effect: {area['onset']} - {area['ends']}</span>
+                                                        <br />                                                    
+                                                    </Tooltip>
+                                                </GeoJSON>
                                             )
                                         }
 
@@ -127,10 +125,15 @@ export default class MapComponent extends Component {
                                     this.props.heatAdvisory.map(area => {
 
                                         if (area && area['geom']) {
-
                                             return (
-                                                < GeoJSON pathOptions={greenOptions} key={area['gid']} data={area['geom']} />
-
+                                                < GeoJSON pathOptions={greenOptions} key={area['gid']} data={area['geom']}> 
+                                                    <Tooltip sticky>
+                                                        <span>{area['prod_type']}</span>
+                                                        <br />
+                                                        <span>In Effect: {area['onset']} - {area['ends']}</span>
+                                                        <br />
+                                                    </Tooltip>
+                                                </GeoJSON>                                            
                                             )
                                         }
 
@@ -145,10 +148,15 @@ export default class MapComponent extends Component {
                                     this.props.floodWatch.map(area => {
 
                                         if (area && area['geom']) {
-
                                             return (
-                                                < GeoJSON pathOptions={blueOptions} key={area['gid']} data={area['geom']} />
-
+                                                < GeoJSON pathOptions={blueOptions} key={area['gid']} data={area['geom']}>
+                                                    <Tooltip sticky>
+                                                        <span>{area['prod_type']}</span>
+                                                        <br />
+                                                        <span>In Effect: {area['onset']} - {area['ends']}</span>
+                                                        <br />
+                                                    </Tooltip>
+                                                </GeoJSON>   
                                             )
                                         }
 
@@ -166,22 +174,33 @@ export default class MapComponent extends Component {
 
                                             let color;
 
-                                            if (dmScore === 3) {
+                                            if (dmScore === 2) {
                                                 color = yellowOptions;
-                                            } else if (dmScore === 4) {
+                                            } else if (dmScore === 3) {
                                                 color = orangeOptions;
-                                            } else if (dmScore === 5) {
+                                            } else if (dmScore === 4) {
                                                 color = redOptions;
                                             }
                                             return color;
                                         }
 
+                                        const dmData = {
+                                            2: "Severe Drought",
+                                            3:"Extreme Drought",
+                                            4: "Exceptional Drought"
+                                        }
 
-                                        if (area && area['geom'] && area.dm && area.dm > 2) {
 
+                                        if (area && area['geom'] && area.dm && area.dm >= 2) {
                                             return (
-                                                < GeoJSON pathOptions={returnColor(area.dm)} key={area['gid']} data={area['geom']} />
-
+                                                <GeoJSON pathOptions={returnColor(area.dm)} key={area['gid']} data={area['geom']}>
+                                                    <Tooltip sticky>
+                                                        <span>Drought Warning</span>
+                                                        <br />   
+                                                        <span>Severity: D{area['dm']} ({dmData[area['dm']]})</span>
+                                                        <br />                                                    
+                                                    </Tooltip>
+                                                </GeoJSON>
                                             )
                                         }
 
@@ -218,10 +237,8 @@ export default class MapComponent extends Component {
 
 
                                         if (area && area['geom'] && area.max_ft) {
-
                                             return (
                                                 < GeoJSON pathOptions={returnColor(area.max_ft)} key={area['gid']} data={area['geom']} />
-
                                             )
                                         }
 
@@ -234,7 +251,6 @@ export default class MapComponent extends Component {
                             <FeatureGroup>
                                 {
                                     this.props.stormTrackLine.map(track => {
-
                                         if (track && track['geom']) {
                                             let coords = this.returnStormTrackCoordinates(track['geom']['coordinates'][0])
                                             return (
@@ -244,7 +260,6 @@ export default class MapComponent extends Component {
                                                 />
                                             )
                                         }
-
                                     })
                  
                                 }
@@ -255,15 +270,11 @@ export default class MapComponent extends Component {
                             <FeatureGroup>
                                 {
                                     this.props.stormTrackPgn.map(area => {
-
                                         if (area && area['geom']) {
-
                                             return (
                                                 < GeoJSON pathOptions={blackOptions} key={area['gid']} data={area['geom']} />
-
                                             )
                                         }
-
                                     })
                                 }
                             </FeatureGroup>
@@ -278,13 +289,10 @@ export default class MapComponent extends Component {
                                             const pointCoords = [point['geom']['coordinates'][1], point['geom']['coordinates'][0]]
                                             return (
                                                 <CircleMarker center={pointCoords} key={point['gid']} color={'white'}>
-
                                                     <Tooltip direction="bottom" opacity={1} permanent>
                                                        {point['datelbl']}
                                                     </Tooltip>
-
                                                 </CircleMarker>
-
                                             )
                                         }
                                     })

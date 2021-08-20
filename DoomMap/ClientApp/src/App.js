@@ -49,13 +49,13 @@ export default class App extends Component {
         API.getFires().then(response => response.json())
             .then(data => {
                 this.setState({ fires: data })
-                console.log("fire:", data)
                 WORKERFUNCTION.calcFireMetrics(data);
             })
             .catch(err => console.log(err));
 
         API.getAdvisoryAreas("redflag").then(response => response.json())
             .then(data => {
+                console.log("red flag", data)
                 this.setState({ redFlag: data })
                 WORKERFUNCTION.calcRedFlagMetrics(data)
             })
@@ -77,7 +77,8 @@ export default class App extends Component {
 
         API.getDroughtConditions().then(response => response.json())
             .then(data => {
-                console.log("droughts:", data)
+                console.log("drought", data)
+
                 this.setState({ droughtConditions: data })
             })
             .catch(err => console.log(err));
@@ -98,7 +99,6 @@ export default class App extends Component {
 
         API.getStormTrack("pgn").then(response => response.json())
             .then(data => {
-                console.log(data)
                 this.setState({ stormTrackPgn: data })
 
             })
