@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { MapContainer, TileLayer, Marker, CircleMarker, LayersControl, Popup, Tooltip, Polygon, Polyline, FeatureGroup, LayerGroup, GeoJSON } from 'react-leaflet';
+import { Grid, withStyles, Box } from '@material-ui/core';
 import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import L from 'leaflet';
@@ -21,17 +22,16 @@ let DefaultIcon = L.icon({
 
 
 
+const MapComponent = (props) => {
 
-export default class MapComponent extends Component {
+    const [position, setPosition] = useState(map.getCenter())
+    const [centerLat, setCenterLat]
 
-    state = {
-        lat: 37.7749,
-        lng: -122.4194,
-        zoom: 13,
-    }
+    const [centerLatLong, setCenterLatLong] = useState([37.7749, -122.4194])
 
 
-    returnStormTrackCoordinates = (geoJSONcoords) => {
+
+    const returnStormTrackCoordinates = (geoJSONcoords) => {
 
         let mappedCoords = geoJSONcoords.map(coord => {
             const newCoord = [coord[1], coord[0]]
@@ -42,268 +42,266 @@ export default class MapComponent extends Component {
     }
 
 
-    render() {
-
-
-        const yellowOptions = { fillColor: 'yellow', stroke: false }
-        const orangeOptions = { fillColor: 'orange', stroke: false }
-        const redOptions = { fillColor: 'red', stroke: false }
-        const greenOptions = { fillColor: 'green', stroke: false }
-        const blueOptions = { fillColor: 'blue', stroke: false }
-        const purpleOptions = { fillColor: 'purple', stroke: false }
-        const blackOptions = { color: 'black' }
+    const yellowOptions = { fillColor: 'yellow', stroke: false }
+    const orangeOptions = { fillColor: 'orange', stroke: false }
+    const redOptions = { fillColor: 'red', stroke: false }
+    const greenOptions = { fillColor: 'green', stroke: false }
+    const blueOptions = { fillColor: 'blue', stroke: false }
+    const purpleOptions = { fillColor: 'purple', stroke: false }
+    const blackOptions = { color: 'black' }
 
 
 
-        return (
-            this.props.gages ?
-                <MapContainer
-                    center={[40.4958869189588, -99.2314387964737]}
-                    zoom={4}
-                    style={{ height: '100vh' }}>
-                    <TileLayer
-                        attribution='&copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                    />
+    return (
+        props.gages ?
+            <MapContainer
+                center={[40.4958869189588, -99.2314387964737]}
+                zoom={4}
+                style={{ height: '100vh' }}>
+                <TileLayer
+                    attribution='&copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                />
 
-                    <LayersControl position="topright">
-                        <LayersControl.Overlay checked name="Active Fires">
-                            <FeatureGroup>
-                                {
-                                    this.props.fires.map(fire => {
+                <LayersControl position="topright">
+                    <LayersControl.Overlay checked name="Active Fires">
+                        <FeatureGroup>
+                            {
+                                props.fires.map(fire => {
 
-                                        if (fire && fire['geom'] && fire['dailyacres'] > 500) {
+                                    if (fire && fire['geom'] && fire['dailyacres'] > 500) {
 
-                                            const point = [fire['geom']['coordinates'][1], fire['geom']['coordinates'][0]]
+                                        const point = [fire['geom']['coordinates'][1], fire['geom']['coordinates'][0]]
 
-                                            return (
-                                                <Marker icon={DefaultIcon} key={fire['objectid']} position={point}>
-                                                    <Tooltip sticky>
-                                                        <span>Fire: {fire['incidentname'] ? fire['incidentname']  : 'N/A'}</span>                                                           
-                                                        <br />
-                                                        <span>Daily acres burned: {fire['dailyacres'] ? fire['dailyacres'] : 'N/A'} acres</span>     
-                                                        <br />
-                                                        <span>Reported date: {fire['firediscoverydatetime'] ? fire['firediscoverydatetime'] : 'N/A'}</span>
-                                                        <br />
-                                                        <span>Description: {fire['incidentshortdescription'] ? fire['incidentshortdescription'] : 'N/A'}</span>
-                                                        <br />
-                                                    </Tooltip>
-                                                </Marker>
-                                            )
+                                        return (
+                                            <Marker icon={DefaultIcon} key={fire['objectid']} position={point}>
+                                                <Tooltip sticky>
+                                                    <span>Fire: {fire['incidentname'] ? fire['incidentname'] : 'N/A'}</span>
+                                                    <br />
+                                                    <span>Daily acres burned: {fire['dailyacres'] ? fire['dailyacres'] : 'N/A'} acres</span>
+                                                    <br />
+                                                    <span>Reported date: {fire['firediscoverydatetime'] ? fire['firediscoverydatetime'] : 'N/A'}</span>
+                                                    <br />
+                                                    <span>Description: {fire['incidentshortdescription'] ? fire['incidentshortdescription'] : 'N/A'}</span>
+                                                    <br />
+                                                </Tooltip>
+                                            </Marker>
+                                        )
+                                    }
+                                })
+                            }
+
+                        </FeatureGroup>
+                    </LayersControl.Overlay>
+                    <LayersControl.Overlay checked name="Fire Warnings/Red Flag Areas">
+                        <FeatureGroup>
+                            {
+                                props.redFlag.map(area => {
+
+                                    if (area && area['geom']) {
+                                        return (
+                                            < GeoJSON pathOptions={redOptions} key={area['gid']} data={area['geom']}>
+                                                <Tooltip sticky>
+                                                    <span>{area['prod_type']}</span>
+                                                    <br />
+                                                    <span>In Effect: {area['onset']} - {area['ends']}</span>
+                                                    <br />
+                                                </Tooltip>
+                                            </GeoJSON>
+                                        )
+                                    }
+
+                                })
+                            }
+                        </FeatureGroup>
+                    </LayersControl.Overlay>
+                    <LayersControl.Overlay checked name="Heat Advisories">
+
+                        <FeatureGroup>
+                            {
+                                props.heatAdvisory.map(area => {
+
+                                    if (area && area['geom']) {
+                                        return (
+                                            < GeoJSON pathOptions={greenOptions} key={area['gid']} data={area['geom']}>
+                                                <Tooltip sticky>
+                                                    <span>{area['prod_type']}</span>
+                                                    <br />
+                                                    <span>In Effect: {area['onset']} - {area['ends']}</span>
+                                                    <br />
+                                                </Tooltip>
+                                            </GeoJSON>
+                                        )
+                                    }
+
+                                })
+                            }
+                        </FeatureGroup>
+                    </LayersControl.Overlay>
+                    <LayersControl.Overlay checked name="Flood Watch Areas">
+
+                        <FeatureGroup>
+                            {
+                                props.floodWatch.map(area => {
+
+                                    if (area && area['geom']) {
+                                        return (
+                                            < GeoJSON pathOptions={blueOptions} key={area['gid']} data={area['geom']}>
+                                                <Tooltip sticky>
+                                                    <span>{area['prod_type']}</span>
+                                                    <br />
+                                                    <span>In Effect: {area['onset']} - {area['ends']}</span>
+                                                    <br />
+                                                </Tooltip>
+                                            </GeoJSON>
+                                        )
+                                    }
+
+                                })
+                            }
+                        </FeatureGroup>
+                    </LayersControl.Overlay>
+                    <LayersControl.Overlay checked name="Drought Conditions">
+
+                        <FeatureGroup>
+                            {
+                                props.droughtConditions.map(area => {
+
+                                    function returnColor(dmScore) {
+
+                                        let color;
+
+                                        if (dmScore === 2) {
+                                            color = yellowOptions;
+                                        } else if (dmScore === 3) {
+                                            color = orangeOptions;
+                                        } else if (dmScore === 4) {
+                                            color = redOptions;
                                         }
-                                    })
-                                }
+                                        return color;
+                                    }
 
-                            </FeatureGroup>
-                        </LayersControl.Overlay>
-                        <LayersControl.Overlay checked name="Fire Warnings/Red Flag Areas">
-                            <FeatureGroup>
-                                {
-                                    this.props.redFlag.map(area => {
-                               
-                                        if (area && area['geom']) {
-                                            return (
-                                                < GeoJSON pathOptions={redOptions} key={area['gid']} data={area['geom']}>
-                                                    <Tooltip sticky>
-                                                        <span>{area['prod_type']}</span>
-                                                        <br />   
-                                                        <span>In Effect: {area['onset']} - {area['ends']}</span>
-                                                        <br />                                                    
-                                                    </Tooltip>
-                                                </GeoJSON>
-                                            )
-                                        }
-
-                                    })
-                                }
-                            </FeatureGroup>
-                        </LayersControl.Overlay>
-                        <LayersControl.Overlay checked name="Heat Advisories">
-
-                            <FeatureGroup>
-                                {
-                                    this.props.heatAdvisory.map(area => {
-
-                                        if (area && area['geom']) {
-                                            return (
-                                                < GeoJSON pathOptions={greenOptions} key={area['gid']} data={area['geom']}> 
-                                                    <Tooltip sticky>
-                                                        <span>{area['prod_type']}</span>
-                                                        <br />
-                                                        <span>In Effect: {area['onset']} - {area['ends']}</span>
-                                                        <br />
-                                                    </Tooltip>
-                                                </GeoJSON>                                            
-                                            )
-                                        }
-
-                                    })
-                                }
-                            </FeatureGroup>
-                        </LayersControl.Overlay>
-                        <LayersControl.Overlay checked name="Flood Watch Areas">
-
-                            <FeatureGroup>
-                                {
-                                    this.props.floodWatch.map(area => {
-
-                                        if (area && area['geom']) {
-                                            return (
-                                                < GeoJSON pathOptions={blueOptions} key={area['gid']} data={area['geom']}>
-                                                    <Tooltip sticky>
-                                                        <span>{area['prod_type']}</span>
-                                                        <br />
-                                                        <span>In Effect: {area['onset']} - {area['ends']}</span>
-                                                        <br />
-                                                    </Tooltip>
-                                                </GeoJSON>   
-                                            )
-                                        }
-
-                                    })
-                                }
-                            </FeatureGroup>
-                        </LayersControl.Overlay>
-                        <LayersControl.Overlay checked name="Drought Conditions">
-
-                            <FeatureGroup>
-                                {
-                                    this.props.droughtConditions.map(area => {
-
-                                        function returnColor(dmScore) {
-
-                                            let color;
-
-                                            if (dmScore === 2) {
-                                                color = yellowOptions;
-                                            } else if (dmScore === 3) {
-                                                color = orangeOptions;
-                                            } else if (dmScore === 4) {
-                                                color = redOptions;
-                                            }
-                                            return color;
-                                        }
-
-                                        const dmData = {
-                                            2: "Severe Drought",
-                                            3:"Extreme Drought",
-                                            4: "Exceptional Drought"
-                                        }
+                                    const dmData = {
+                                        2: "Severe Drought",
+                                        3: "Extreme Drought",
+                                        4: "Exceptional Drought"
+                                    }
 
 
-                                        if (area && area['geom'] && area.dm && area.dm >= 2) {
-                                            return (
-                                                <GeoJSON pathOptions={returnColor(area.dm)} key={area['gid']} data={area['geom']}>
-                                                    <Tooltip sticky>
-                                                        <span>Drought Warning</span>
-                                                        <br />   
-                                                        <span>Severity: D{area['dm']} ({dmData[area['dm']]})</span>
-                                                        <br />                                                    
-                                                    </Tooltip>
-                                                </GeoJSON>
-                                            )
-                                        }
+                                    if (area && area['geom'] && area.dm && area.dm >= 2) {
+                                        return (
+                                            <GeoJSON pathOptions={returnColor(area.dm)} key={area['gid']} data={area['geom']}>
+                                                <Tooltip sticky>
+                                                    <span>Drought Warning</span>
+                                                    <br />
+                                                    <span>Severity: D{area['dm']} ({dmData[area['dm']]})</span>
+                                                    <br />
+                                                </Tooltip>
+                                            </GeoJSON>
+                                        )
+                                    }
 
-                                    })
-                                }
-                            </FeatureGroup>
-                        </LayersControl.Overlay>
-                        <LayersControl.Overlay checked name="Storm Surge">
+                                })
+                            }
+                        </FeatureGroup>
+                    </LayersControl.Overlay>
+                    <LayersControl.Overlay checked name="Storm Surge">
 
-                            <FeatureGroup>
-                                {
-                                    this.props.stormConditions.map(area => {
+                        <FeatureGroup>
+                            {
+                                props.stormConditions.map(area => {
 
-                                        function returnColor(max_ft) {
+                                    function returnColor(max_ft) {
 
-                                            let color;
+                                        let color;
 
-                                            if (max_ft < 2) {
-                                                color = blueOptions;
-                                            } else if (max_ft >= 2 && max_ft < 4) {
-                                                color = greenOptions;
-                                            } else if (max_ft >= 4 && max_ft < 6) {
-                                                color = yellowOptions;
-                                            } else if (max_ft >= 6 && max_ft < 8) {
-                                                color = orangeOptions;
-                                            } else if (max_ft >= 8 && max_ft < 9.5) {
-                                                color = redOptions;
-                                            } else if (max_ft >= 9.5) {
-                                                color = purpleOptions;
-                                            }
-
-                                            return color;
+                                        if (max_ft < 2) {
+                                            color = blueOptions;
+                                        } else if (max_ft >= 2 && max_ft < 4) {
+                                            color = greenOptions;
+                                        } else if (max_ft >= 4 && max_ft < 6) {
+                                            color = yellowOptions;
+                                        } else if (max_ft >= 6 && max_ft < 8) {
+                                            color = orangeOptions;
+                                        } else if (max_ft >= 8 && max_ft < 9.5) {
+                                            color = redOptions;
+                                        } else if (max_ft >= 9.5) {
+                                            color = purpleOptions;
                                         }
 
+                                        return color;
+                                    }
 
-                                        if (area && area['geom'] && area.max_ft) {
-                                            return (
-                                                < GeoJSON pathOptions={returnColor(area.max_ft)} key={area['gid']} data={area['geom']} />
-                                            )
-                                        }
 
-                                    })
-                                }
-                            </FeatureGroup>
-                        </LayersControl.Overlay>
-                        <LayersControl.Overlay checked name="Storm Track">
+                                    if (area && area['geom'] && area.max_ft) {
+                                        return (
+                                            < GeoJSON pathOptions={returnColor(area.max_ft)} key={area['gid']} data={area['geom']} />
+                                        )
+                                    }
 
-                            <FeatureGroup>
-                                {
-                                    this.props.stormTrackLine.map(track => {
-                                        if (track && track['geom']) {
-                                            let coords = this.returnStormTrackCoordinates(track['geom']['coordinates'][0])
-                                            return (
-                                                <Polyline
-                                                    positions={coords}
-                                                    color={'black'}
-                                                />
-                                            )
-                                        }
-                                    })
-                 
-                                }
-                            </FeatureGroup>
-                        </LayersControl.Overlay>
-                        <LayersControl.Overlay checked name="Storm Area">
+                                })
+                            }
+                        </FeatureGroup>
+                    </LayersControl.Overlay>
+                    <LayersControl.Overlay checked name="Storm Track">
 
-                            <FeatureGroup>
-                                {
-                                    this.props.stormTrackPgn.map(area => {
-                                        if (area && area['geom']) {
-                                            return (
-                                                < GeoJSON pathOptions={blackOptions} key={area['gid']} data={area['geom']} />
-                                            )
-                                        }
-                                    })
-                                }
-                            </FeatureGroup>
-                        </LayersControl.Overlay>
-                        <LayersControl.Overlay checked name="Storm Timeline">
+                        <FeatureGroup>
+                            {
+                                props.stormTrackLine.map(track => {
+                                    if (track && track['geom']) {
+                                        let coords = returnStormTrackCoordinates(track['geom']['coordinates'][0])
+                                        return (
+                                            <Polyline
+                                                positions={coords}
+                                                color={'black'}
+                                            />
+                                        )
+                                    }
+                                })
 
-                            <FeatureGroup>
-                                {
-                                    this.props.stormTrackPts.map(point => {
+                            }
+                        </FeatureGroup>
+                    </LayersControl.Overlay>
+                    <LayersControl.Overlay checked name="Storm Area">
 
-                                        if (point && point['geom']) {
-                                            const pointCoords = [point['geom']['coordinates'][1], point['geom']['coordinates'][0]]
-                                            return (
-                                                <CircleMarker center={pointCoords} key={point['gid']} color={'white'}>
-                                                    <Tooltip direction="bottom" opacity={1} permanent>
-                                                       {point['datelbl']}
-                                                    </Tooltip>
-                                                </CircleMarker>
-                                            )
-                                        }
-                                    })
-                                }
-                            </FeatureGroup>
-                        </LayersControl.Overlay>
-                    </LayersControl>
-                </MapContainer>
+                        <FeatureGroup>
+                            {
+                                props.stormTrackPgn.map(area => {
+                                    if (area && area['geom']) {
+                                        return (
+                                            < GeoJSON pathOptions={blackOptions} key={area['gid']} data={area['geom']} />
+                                        )
+                                    }
+                                })
+                            }
+                        </FeatureGroup>
+                    </LayersControl.Overlay>
+                    <LayersControl.Overlay checked name="Storm Timeline">
 
-                :
-                'Data is loading...'
-        )
-    }
+                        <FeatureGroup>
+                            {
+                                props.stormTrackPts.map(point => {
+
+                                    if (point && point['geom']) {
+                                        const pointCoords = [point['geom']['coordinates'][1], point['geom']['coordinates'][0]]
+                                        return (
+                                            <CircleMarker center={pointCoords} key={point['gid']} color={'white'}>
+                                                <Tooltip direction="bottom" opacity={1} permanent>
+                                                    {point['datelbl']}
+                                                </Tooltip>
+                                            </CircleMarker>
+                                        )
+                                    }
+                                })
+                            }
+                        </FeatureGroup>
+                    </LayersControl.Overlay>
+                </LayersControl>
+            </MapContainer>
+
+            :
+            'Data is loading...'
+    )
 }
+
+export default withStyles(styles)(MapComponent)
