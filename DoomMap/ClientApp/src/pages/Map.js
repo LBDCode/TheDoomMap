@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 import { MapContainer, TileLayer, Marker, CircleMarker, LayersControl, Popup, Tooltip, Polygon, Polyline, FeatureGroup, LayerGroup, GeoJSON } from 'react-leaflet';
 import { Grid, withStyles, Box } from '@material-ui/core';
 import icon from 'leaflet/dist/images/marker-icon.png';
@@ -24,8 +24,8 @@ let DefaultIcon = L.icon({
 
 const MapComponent = (props) => {
 
-    const [position, setPosition] = useState(map.getCenter())
-    const [centerLat, setCenterLat]
+    //const [position, setPosition] = useState(map.getCenter())
+
 
     const [centerLatLong, setCenterLatLong] = useState([37.7749, -122.4194])
 
@@ -267,9 +267,22 @@ const MapComponent = (props) => {
                         <FeatureGroup>
                             {
                                 props.stormTrackPgn.map(area => {
+                                    const stormTypes = {
+                                        "HU": "Hurricane",
+                                        "TD": "Tropical Depression",
+                                        "TS": "Tropical Storm"
+                                    };
+
                                     if (area && area['geom']) {
                                         return (
-                                            < GeoJSON pathOptions={blackOptions} key={area['gid']} data={area['geom']} />
+                                            < GeoJSON pathOptions={blackOptions} key={area['gid']} data={area['geom']}>
+                                                <Tooltip direction="bottom" opacity={1} permanent>
+                                                    <span>{stormTypes[area['stormtype']]} {area['stormname']}</span>
+                                                    <br />
+                                                    <span>Advisory: {area['advisnum'] }</span>
+                                                    <br />
+                                                </Tooltip>
+                                            </ GeoJSON>
                                         )
                                     }
                                 })
@@ -286,8 +299,12 @@ const MapComponent = (props) => {
                                         const pointCoords = [point['geom']['coordinates'][1], point['geom']['coordinates'][0]]
                                         return (
                                             <CircleMarker center={pointCoords} key={point['gid']} color={'white'}>
-                                                <Tooltip direction="bottom" opacity={1} permanent>
-                                                    {point['datelbl']}
+                                                <Tooltip direction="bottom" opacity={1} >
+                                                    <span>{point['stormname']} - {point['tcdvlp']}</span>
+                                                    <br />
+                                                    <span>wind gusts up to {point['gust']} MPH</span>
+                                                    <br />
+                                                    <span>{point['datelbl']}</span>
                                                 </Tooltip>
                                             </CircleMarker>
                                         )
@@ -304,4 +321,5 @@ const MapComponent = (props) => {
     )
 }
 
-export default withStyles(styles)(MapComponent)
+
+export default MapComponent

@@ -14,17 +14,19 @@ namespace DoomMap.Entities
         [Key]
         public int gid { get; set; }
 
-        public string? advdate { get; set; }
+        public string advdate { get; set; }
 
-        public string? advisnum { get; set; }
+        public string advisnum { get; set; }
 
-        public string? datelbl { get; set; }
+        public string datelbl { get; set; }
 
-        public string? stormname { get; set; }
+        public string stormname { get; set; }
 
-        public string? stormtype { get; set; }
-        
-        public string? tcdvlp { get; set; }
+        public string stormtype { get; set; }
+
+        public Decimal gust { get; set; }
+
+        public string tcdvlp { get; set; }
 
         public Geometry geom { get; set; }
 
