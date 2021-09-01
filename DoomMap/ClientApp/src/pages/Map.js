@@ -72,18 +72,20 @@ const MapComponent = (props) => {
                     stormTrackLine={props.stormTrackLine}
                     stormTrackPgn={props.stormTrackPgn}
                     stormTrackPts={props.stormTrackPts}
+                    updateDisasterMetrics={props.updateDisasterMetrics}
                 />
             </MapContainer>
 
 
 
 
-    function DisplayPosition({ map }) {
+    function DisplayPosition({ map, updateDisasterMetrics }) {
         const [position, setPosition] = useState(map.getCenter())
 
 
         const onMove = useCallback(() => {
             setPosition(map.getCenter())
+            updateDisasterMetrics(map.getBounds())
         }, [map])
 
         useEffect(() => {
@@ -103,7 +105,7 @@ const MapComponent = (props) => {
 
     return (
         <div>
-            {map ? <DisplayPosition map={map} /> : null}
+            {map ? <DisplayPosition map={map} updateDisasterMetrics={props.updateDisasterMetrics} /> : null}
 
             <MapContainer
                 center={[40.4958869189588, -99.2314387964737]}

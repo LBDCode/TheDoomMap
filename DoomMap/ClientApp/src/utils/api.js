@@ -19,4 +19,7 @@ export default {
     getStormTrack: function (component) {
         return fetch(`api/stormtrack/${component}`);
     },
+    getDisastersInBounds: function (boundingCoords) {
+        console.log(boundingCoords)
+    }
 };

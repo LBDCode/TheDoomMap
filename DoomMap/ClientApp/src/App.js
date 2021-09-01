@@ -113,6 +113,14 @@ export default class App extends Component {
 
     };
 
+    updateDisasterMetrics(boundingCoords) {
+        console.log("in app", boundingCoords)
+        //API.getDisastersInBounds(boundingCoords).then(response => response.json())
+            //.then(data => {
+            //    console.log(data)
+            //})
+    }
+
     render() {
         return (
             <Layout>
@@ -131,6 +139,7 @@ export default class App extends Component {
                         stormTrackLine={this.state.stormTrackLine}
                         stormTrackPgn={this.state.stormTrackPgn}
                         stormTrackPts={this.state.stormTrackPts}
+                        updateDisasterMetrics={this.updateDisasterMetrics}
                     />
                 </Route>
             </Layout>
