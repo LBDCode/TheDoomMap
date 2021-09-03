@@ -19,7 +19,33 @@ export default {
     getStormTrack: function (component) {
         return fetch(`api/stormtrack/${component}`);
     },
-    getDisastersInBounds: function (boundingCoords) {
-        console.log(boundingCoords)
+    getFiresInBounds: function (boundingCoords) {
+        return fetch('api/fires/viewfires', {
+            method: 'POST',
+            mode: 'cors', 
+            cache: 'no-cache', 
+            credentials: 'same-origin', 
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            redirect: 'follow', 
+            referrerPolicy: 'no-referrer',
+            body: JSON.stringify(boundingCoords)
+        });
+    },
+    getDroughtsInBounds: function (boundingCoords) {
+        return fetch('api/drought/viewdroughts', {
+            method: 'POST',
+            mode: 'cors',
+            cache: 'no-cache',
+            credentials: 'same-origin',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            redirect: 'follow',
+            referrerPolicy: 'no-referrer',
+            body: JSON.stringify(boundingCoords)
+        });
     }
+
 };

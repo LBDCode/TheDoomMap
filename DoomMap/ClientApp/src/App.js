@@ -114,11 +114,26 @@ export default class App extends Component {
     };
 
     updateDisasterMetrics(boundingCoords) {
-        console.log("in app", boundingCoords)
-        //API.getDisastersInBounds(boundingCoords).then(response => response.json())
-            //.then(data => {
-            //    console.log(data)
-            //})
+        const polyCoords = {
+            xmin: boundingCoords['_southWest']['lng'],
+            ymin: boundingCoords['_southWest']['lat'],
+            xmax: boundingCoords['_northEast']['lng'],
+            ymax: boundingCoords['_northEast']['lat'] 
+        }
+
+        console.log(polyCoords)
+
+        API.getFiresInBounds(polyCoords).then(response => response.json())
+            .then(data => {
+                console.log("fires from api call", data)
+            })
+
+        API.getDroughtsInBounds(polyCoords).then(response => response.json())
+            .then(data => {
+                console.log("droughts from api call", data)
+            })
+
+        
     }
 
     render() {

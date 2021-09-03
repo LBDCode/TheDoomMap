@@ -51,7 +51,10 @@ namespace DoomMap
             {
                 var geoJsonConverterFactory = new GeoJsonConverterFactory();
                 options.JsonSerializerOptions.Converters.Add(geoJsonConverterFactory);
+
             });
+
+
 
             services.AddSingleton(NtsGeometryServices.Instance);
             //var connectionString = Configuration["PostgreSql:ConnectionString"];
