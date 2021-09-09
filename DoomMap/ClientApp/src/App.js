@@ -133,6 +133,11 @@ export default class App extends Component {
                 console.log("droughts from api call", data)
             })
 
+        API.getAreasInBounds(polyCoords).then(response => response.json())
+            .then(data => {
+                console.log("areas from api call", data)
+            })
+
         
     }
 

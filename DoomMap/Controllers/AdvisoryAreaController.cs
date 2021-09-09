@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DoomMap.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace DoomMap.Controllers
 {
@@ -52,11 +53,27 @@ namespace DoomMap.Controllers
         }
 
 
-        //[HttpGet("{gid}", Name = "GetByAdvisoryAreaID")]
-        //public IActionResult Get(int gid)
-        //{
-        //    var area = _context.Find<AdvisoryArea>(gid);
-        //    return Ok(area);
-        //}
+        [HttpPost]
+        [Route("viewareas")]
+        public IActionResult Post([FromBody] MapView viewBounds)
+        {
+            string tableName = "advisory_areas";
+
+            string viewXMin = viewBounds.xmin.ToString();
+            string viewYMin = viewBounds.ymin.ToString();
+            string viewXMax = viewBounds.xmax.ToString();
+            string viewYMax = viewBounds.ymax.ToString();
+
+
+            string areaSelect = $"SELECT * FROM {tableName} WHERE ST_Intersects(geom,";
+            string makeST_Geom = $" ST_GeomFromText('Polygon ((";
+            string ST_GeomCoords = $"{viewXMin} {viewYMin}, {viewXMin} {viewYMax}, {viewXMax} {viewYMax}, {viewXMax} {viewYMin}, {viewXMin} {viewYMin}))'";
+            string SRIDConstraint = $",4326))";
+
+            string fullSqlQuery = areaSelect + makeST_Geom + ST_GeomCoords + SRIDConstraint;
+
+            List<AdvisoryArea> areas = _context.AdvisoryAreas.FromSqlRaw(fullSqlQuery).ToList();
+            return Ok(areas);
+        }
     }
 }

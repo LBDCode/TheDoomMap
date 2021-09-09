@@ -46,6 +46,20 @@ export default {
             referrerPolicy: 'no-referrer',
             body: JSON.stringify(boundingCoords)
         });
+    },
+    getAreasInBounds: function (boundingCoords) {
+        return fetch('api/advisoryareas/viewareas', {
+            method: 'POST',
+            mode: 'cors',
+            cache: 'no-cache',
+            credentials: 'same-origin',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            redirect: 'follow',
+            referrerPolicy: 'no-referrer',
+            body: JSON.stringify(boundingCoords)
+        });
     }
-
+    
 };
