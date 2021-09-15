@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DoomMap.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace DoomMap.Controllers
 {
@@ -18,13 +19,6 @@ namespace DoomMap.Controllers
         {
             _context = context;
         }
-
-        //private readonly ILogger<GagesController> _logger;
-
-        //public GagesController(ILogger<GagesController> logger)
-        //{
-        //    _logger = logger;
-        //}
 
         [HttpGet("{type}", Name = "GetTrackByComponent")]
         public IActionResult Get(string type)
@@ -60,6 +54,27 @@ namespace DoomMap.Controllers
             }
 
         }
+
+        [HttpPost]
+        [Route("viewstorms")]
+        public IActionResult Post([FromBody] MapView viewBounds)
+        {
+            string tableName = "storm_track_pgn";
+
+            string viewXMin = viewBounds.xmin.ToString();
+            string viewYMin = viewBounds.ymin.ToString();
+            string viewXMax = viewBounds.xmax.ToString();
+            string viewYMax = viewBounds.ymax.ToString();
+
+            string stormSelect = $"SELECT * FROM {tableName} WHERE geom";
+            string makeEnvelope = $" && ST_MakeEnvelope({viewXMin}, {viewYMin}, {viewXMax}, {viewYMax}, 4326)";
+
+            string fullSqlQuery = stormSelect + makeEnvelope;
+
+            List<StormPgn> fires = _context.StormPgn.FromSqlRaw(fullSqlQuery).ToList();
+            return Ok(fires);
+        }
+
 
     }
 }

@@ -6,6 +6,7 @@ import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import L from 'leaflet';
 import { fireIcon } from './fire.png';
 import MapLayers from '../components/MapLayers';
+import Metrics from '../components/Metrics';
 
 
 let DefaultIcon = L.icon({
@@ -24,7 +25,6 @@ let DefaultIcon = L.icon({
 
 const MapComponent = (props) => {
 
-    //const [position, setPosition] = useState(map.getCenter())
     const [map, setMap] = useState(null)
 
     const [centerLatLong, setCenterLatLong] = useState([37.7749, -122.4194])
@@ -62,30 +62,29 @@ const MapComponent = (props) => {
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
                 <MapLayers
-                    gages={props.gages}
-                    fires={props.fires}
-                    droughtConditions={props.droughtConditions}
-                    stormConditions={props.stormConditions}
-                    heatAdvisory={props.heatAdvisory}
-                    floodWatch={props.floodWatch}
-                    redFlag={props.redFlag}
-                    stormTrackLine={props.stormTrackLine}
-                    stormTrackPgn={props.stormTrackPgn}
-                    stormTrackPts={props.stormTrackPts}
-                    updateDisasterMetrics={props.updateDisasterMetrics}
+                gages={props.gages}
+                fires={props.fires}
+                droughtConditions={props.droughtConditions}
+                stormConditions={props.stormConditions}
+                heatAdvisory={props.heatAdvisory}
+                floodWatch={props.floodWatch}
+                redFlag={props.redFlag}
+                stormTrackLine={props.stormTrackLine}
+                stormTrackPgn={props.stormTrackPgn}
+                stormTrackPts={props.stormTrackPts}
                 />
             </MapContainer>
 
 
 
 
-    function DisplayPosition({ map, updateDisasterMetrics }) {
-        const [position, setPosition] = useState(map.getCenter())
-
+    function DisplayPosition({ map }) {
+        const [position, setPosition] = useState(map.getCenter())       
+        const [viewBounds, setViewBounds] = useState(map.getBounds())
 
         const onMove = useCallback(() => {
             setPosition(map.getCenter())
-            updateDisasterMetrics(map.getBounds())
+            setViewBounds(map.getBounds())
         }, [map])
 
         useEffect(() => {
@@ -96,16 +95,18 @@ const MapComponent = (props) => {
         }, [map, onMove])
 
         return (
-            <p>
-                latitude: {position.lat.toFixed(4)}, longitude: {position.lng.toFixed(4)}{' '}
-            </p>
+            <Metrics viewBounds={viewBounds} />
         )
     }
 
 
     return (
         <div>
-            {map ? <DisplayPosition map={map} updateDisasterMetrics={props.updateDisasterMetrics} /> : null}
+            {map ?
+                <DisplayPosition map={map} />
+                :
+                null
+            }
 
             <MapContainer
                 center={[40.4958869189588, -99.2314387964737]}

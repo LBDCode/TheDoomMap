@@ -11,7 +11,9 @@ import WORKERFUNCTION from './utils/workerFunctions';
 import './custom.css'
 
 export default class App extends Component {
+
     static displayName = App.name;
+
     state = {
         incidents: [],
         gages: [],
@@ -24,27 +26,14 @@ export default class App extends Component {
         stormConditions: [],
         stormTrackLine: [],
         stormTrackPgn: [],
-        stormTrackPts: []
-
+        stormTrackPts: [],
+        viewFires: [],
+        viewAreas: [],
+        viewDroughts: [],
+        viewStorms: [],
     }
 
-    async componentDidMount() {
-        //const res = await axios.get('https://data.sfgov.org/resource/wr8u-xric.json', {
-        //    params: {
-        //        "$limit": 500,
-        //        "$$app_token": "mMBPu3Z5Dnnd4Kb8dMFcp97V0"
-        //    }
-        //})
-        //const incidents = res.data;
-        //console.log(incidents)
-        //this.setState({ incidents: incidents });
-
-
-        //API.getGages().then(response => response.json())
-        //    .then(data => {
-        //        this.setState({ gages: data})
-        //    })
-        //    .catch(err => console.log(err));
+    componentDidMount() {
 
         API.getFires().then(response => response.json())
             .then(data => {
@@ -83,13 +72,6 @@ export default class App extends Component {
             })
             .catch(err => console.log(err));
 
-        //API.getStormConditions().then(response => response.json())
-        //    .then(data => {
-        //        this.setState({ stormConditions: data })
-
-        //    })
-        //    .catch(err => console.log(err));
-
         API.getStormTrack("line").then(response => response.json())
             .then(data => {
                 this.setState({ stormTrackLine: data })
@@ -113,33 +95,7 @@ export default class App extends Component {
 
     };
 
-    updateDisasterMetrics(boundingCoords) {
-        const polyCoords = {
-            xmin: boundingCoords['_southWest']['lng'],
-            ymin: boundingCoords['_southWest']['lat'],
-            xmax: boundingCoords['_northEast']['lng'],
-            ymax: boundingCoords['_northEast']['lat'] 
-        }
 
-        console.log(polyCoords)
-
-        API.getFiresInBounds(polyCoords).then(response => response.json())
-            .then(data => {
-                console.log("fires from api call", data)
-            })
-
-        API.getDroughtsInBounds(polyCoords).then(response => response.json())
-            .then(data => {
-                console.log("droughts from api call", data)
-            })
-
-        API.getAreasInBounds(polyCoords).then(response => response.json())
-            .then(data => {
-                console.log("areas from api call", data)
-            })
-
-        
-    }
 
     render() {
         return (
@@ -159,7 +115,6 @@ export default class App extends Component {
                         stormTrackLine={this.state.stormTrackLine}
                         stormTrackPgn={this.state.stormTrackPgn}
                         stormTrackPts={this.state.stormTrackPts}
-                        updateDisasterMetrics={this.updateDisasterMetrics}
                     />
                 </Route>
             </Layout>

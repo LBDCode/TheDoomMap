@@ -1,23 +1,55 @@
-import React, { Component } from 'react';
+import React, { Component, useState, useEffect } from 'react';
+import API from '../utils/api';
 
+function Metrics(props) {
 
-function Metrics({ map }) {
-    const [position, setPosition] = useState(map.getCenter())
+    const [viewFires, setViewFires] = useState([])
+    const [viewDroughts, setViewDroughts] = useState([])
+    const [viewAreas, setViewAreas] = useState([])
+    const [viewStorms, setViewStorms] = useState([])
 
-    const onMove = useCallback(() => {
-        setPosition(map.getCenter())
-    }, [map])
+    const updateDisasterMetrics = (boundingCoords) => {
+
+        const polyCoords = {
+            xmin: boundingCoords['_southWest']['lng'],
+            ymin: boundingCoords['_southWest']['lat'],
+            xmax: boundingCoords['_northEast']['lng'],
+            ymax: boundingCoords['_northEast']['lat']
+        }
+
+        API.getFiresInBounds(polyCoords).then(response => response.json())
+            .then(data => {
+                setViewFires(data)
+            }).catch(err => console.log(err));
+
+        API.getDroughtsInBounds(polyCoords).then(response => response.json())
+            .then(data => {
+                setViewDroughts(data)
+            }).catch(err => console.log(err));
+
+        API.getAreasInBounds(polyCoords).then(response => response.json())
+            .then(data => {
+                setViewAreas(data)
+            }).catch(err => console.log(err));
+
+        API.getStormsInBounds(polyCoords).then(response => response.json())
+            .then(data => {
+                setViewStorms(data)
+            }).catch(err => console.log(err));
+
+    }
 
     useEffect(() => {
-        map.on('move', onMove)
-        return () => {
-            map.off('move', onMove)
-        }
-    }, [map, onMove])
+        updateDisasterMetrics(props.viewBounds)
+
+    }, [props.viewBounds])
 
     return (
         <p>
-            latitude: {position.lat.toFixed(4)}, longitude: {position.lng.toFixed(4)}{' '}
+            fires: {viewFires.length}
+            storms: {viewStorms.length}
+            droughts: {viewDroughts.length}
+            areas: {viewAreas.length}
         </p>
     )
 }

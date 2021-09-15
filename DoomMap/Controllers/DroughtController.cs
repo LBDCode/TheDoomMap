@@ -47,8 +47,9 @@ namespace DoomMap.Controllers
             string makeST_Geom = $" ST_GeomFromText('Polygon ((";
             string ST_GeomCoords = $"{viewXMin} {viewYMin}, {viewXMin} {viewYMax}, {viewXMax} {viewYMax}, {viewXMax} {viewYMin}, {viewXMin} {viewYMin}))'";
             string SRIDConstraint = $",4326))";
+            string dmConstraint = $" AND dm > 1";
 
-            string fullSqlQuery = droughtSelect + makeST_Geom + ST_GeomCoords + SRIDConstraint;
+            string fullSqlQuery = droughtSelect + makeST_Geom + ST_GeomCoords + SRIDConstraint + dmConstraint;
 
             List<Drought> droughts = _context.Droughts.FromSqlRaw(fullSqlQuery).ToList();
             return Ok(droughts);
