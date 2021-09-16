@@ -1,7 +1,19 @@
 import React, { Component, useState, useEffect } from 'react';
 import API from '../utils/api';
+import { Grid, withStyles, Box, Paper } from '@material-ui/core';
 
-function Metrics(props) {
+const styles = theme => ({
+    paper: {
+        fontSize: ".9rem"
+    }
+
+});
+
+
+
+const Metrics = (props) => {
+
+    const { classes } = props;
 
     const [viewFires, setViewFires] = useState([])
     const [viewDroughts, setViewDroughts] = useState([])
@@ -45,13 +57,28 @@ function Metrics(props) {
     }, [props.viewBounds])
 
     return (
-        <p>
-            fires: {viewFires.length}
-            storms: {viewStorms.length}
-            droughts: {viewDroughts.length}
-            areas: {viewAreas.length}
-        </p>
+        <Grid
+            container
+            direction="row"
+            justifyContent="space-evenly"
+            alignItems="center"
+        >
+             <Grid item xs={3}>
+                <Paper className={classes.paper}>fires: {viewFires.length}</Paper>
+            </Grid>
+            <Grid item xs={3}>
+                <Paper className={classes.paper}>storms: {viewStorms.length}</Paper>
+            </Grid>
+            <Grid item xs={3}>
+                <Paper className={classes.paper}>fires: droughts: {viewDroughts.length}</Paper>
+            </Grid>
+            <Grid item xs={3}>
+                <Paper className={classes.paper}>areas: {viewAreas.length}</Paper>
+            </Grid>            
+
+        </ Grid>
+
     )
 }
 
-export default Metrics;
+export default withStyles(styles)(Metrics);
