@@ -5,7 +5,23 @@ import { Grid, withStyles, Box, Paper } from '@material-ui/core';
 const styles = theme => ({
     paper: {
         fontSize: ".9rem"
-    }
+    },
+    metricsGrid: {
+        position: "fixed",
+        zIndex: "5000",
+        bottom: "10px"
+    },
+    metricsItem: {
+        backgroundColor: "red",
+        opacity: ".8",
+        textAlign: "center"
+    },
+    metricsPaper: {
+        backgroundColor: "red",
+        fontSize: ".9rem",
+        textAlign: "center"
+    },
+
 
 });
 
@@ -58,22 +74,23 @@ const Metrics = (props) => {
 
     return (
         <Grid
+            className={classes.metricsGrid}
             container
             direction="row"
             justifyContent="space-evenly"
             alignItems="center"
         >
-             <Grid item xs={3}>
-                <Paper className={classes.paper}>fires: {viewFires.length}</Paper>
+            <Grid className={classes.metricsItem} item xs={3}>
+                <Paper className={classes.metricsPaper}>fires: {viewFires.length}</Paper>
             </Grid>
-            <Grid item xs={3}>
-                <Paper className={classes.paper}>storms: {viewStorms.length}</Paper>
+            <Grid className={classes.metricsItem} item xs={3}>
+                <Paper className={classes.metricsPaper}>storms: {viewStorms.length}</Paper>
             </Grid>
-            <Grid item xs={3}>
-                <Paper className={classes.paper}>fires: droughts: {viewDroughts.length}</Paper>
+            <Grid className={classes.metricsItem} item xs={3}>
+                <Paper className={classes.metricsPaper}>fires: droughts: {viewDroughts.length}</Paper>
             </Grid>
-            <Grid item xs={3}>
-                <Paper className={classes.paper}>areas: {viewAreas.length}</Paper>
+            <Grid className={classes.metricsItem} item xs={3}>
+                <Paper className={classes.metricsPaper}>areas: {viewAreas.length}</Paper>
             </Grid>            
 
         </ Grid>
