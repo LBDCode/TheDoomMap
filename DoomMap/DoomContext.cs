@@ -23,6 +23,8 @@ namespace DoomMap
 
 		public DbSet<Gage> Gages { get; set; }
         public DbSet<Fire> Fires { get; set; }
+
+
         public DbSet<AdvisoryArea> AdvisoryAreas { get; set; }
         public DbSet<Drought> Droughts { get; set; }
         public DbSet<Storm> Storms { get; set; }

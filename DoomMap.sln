@@ -17,6 +17,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		oldDocker-compose.txt = oldDocker-compose.txt
 	EndProjectSection
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DoomMap.UnitTests", "DoomMap.UnitTests\DoomMap.UnitTests.csproj", "{B5FE92CD-D132-49D4-80AB-D80DB568DD21}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +33,10 @@ Global
 		{F493B0B3-47B7-4893-90FD-F546565A38DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F493B0B3-47B7-4893-90FD-F546565A38DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F493B0B3-47B7-4893-90FD-F546565A38DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B5FE92CD-D132-49D4-80AB-D80DB568DD21}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5FE92CD-D132-49D4-80AB-D80DB568DD21}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B5FE92CD-D132-49D4-80AB-D80DB568DD21}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B5FE92CD-D132-49D4-80AB-D80DB568DD21}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -46,7 +46,7 @@ const MapLayersComponent = (props) => {
     const greenOptions = { fillColor: 'green', stroke: false }
     const blueOptions = { fillColor: 'blue', stroke: false }
     const purpleOptions = { fillColor: 'purple', stroke: false }
-    const blackOptions = { color: 'black' }
+    const blackOptions = { color: 'black', weight: '2' }
 
 
 

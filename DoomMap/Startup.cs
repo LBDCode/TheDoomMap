@@ -57,22 +57,22 @@ namespace DoomMap
 
 
             services.AddSingleton(NtsGeometryServices.Instance);
-            //var connectionString = Configuration["PostgreSql:ConnectionString"];
-            //var dbPassword = Configuration["PostgreSql:DbPassword"];
-            //var builder = new NpgsqlConnectionStringBuilder(connectionString)
-            //{
-            //    Password = dbPassword
-            //};
+            var connectionString = Configuration["PostgreSql:ConnectionString"];
+            var dbPassword = Configuration["PostgreSql:DbPassword"];
+            var builder = new NpgsqlConnectionStringBuilder(connectionString)
+            {
+                Password = dbPassword
+            };
 
-            var connectionString = Environment.GetEnvironmentVariable("DB_CONNECTION_STRING");
-            services.AddDbContext<DoomContext>(options =>
-                options.UseNpgsql(
-                    connectionString, o => o.UseNetTopologySuite()
-                )
-            );
+            //var connectionString = Environment.GetEnvironmentVariable("DB_CONNECTION_STRING");
+            //services.AddDbContext<DoomContext>(options =>
+            //    options.UseNpgsql(
+            //        connectionString, o => o.UseNetTopologySuite()
+            //    )
+            //);
 
 
-            //services.AddDbContext<DoomContext>(options => options.UseNpgsql(builder.ConnectionString, o => o.UseNetTopologySuite()));
+            services.AddDbContext<DoomContext>(options => options.UseNpgsql(builder.ConnectionString, o => o.UseNetTopologySuite()));
 
 
 

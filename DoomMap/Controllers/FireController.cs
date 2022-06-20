@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Text.Json;
 using DoomMap.Entities;
 using Microsoft.EntityFrameworkCore;
+using DoomMap.Services;
 
 namespace DoomMap.Controllers
 {
@@ -16,9 +17,16 @@ namespace DoomMap.Controllers
     {
 
         private readonly DoomContext _context;
-        public FiresController(DoomContext context)
+
+        private readonly IFireService _fireService;
+
+        private readonly ILogger<FiresController> _logger;
+
+
+        public FiresController(IFireService fireService, ILogger<FiresController> logger)
         {
-            _context = context;
+            _fireService = fireService;
+            _logger = logger;
         }
 
 
@@ -30,33 +38,26 @@ namespace DoomMap.Controllers
             return Ok(fires);
         }
 
-        [HttpGet("{site_no}", Name = "GetByFireID")]
-        public IActionResult GetFire(string site_no)
+        [HttpGet("{objectid}", Name = "GetByFireID")]
+        public async Task<ActionResult<Fire>> GetFireByID(string objectid)
         {
-            var fire = _context.Find<Gage>(site_no);
+            var fire = await _fireService.GetFireByID(objectid);
+
+            if (fire is null)
+            {
+                return NotFound();
+            }
+
             return Ok(fire);
         }
 
         [HttpPost]
         [Route("viewfires")]
-        public IActionResult Post([FromBody] MapView viewBounds)
+        public async Task<ActionResult> Post([FromBody] MapView viewBounds)
         {
-            string tableName = "current_fires";
 
-            string viewXMin = viewBounds.xmin.ToString();
-            string viewYMin = viewBounds.ymin.ToString();
-            string viewXMax = viewBounds.xmax.ToString();
-            string viewYMax = viewBounds.ymax.ToString();
+            var fires = await _fireService.GetFiresInView(viewBounds);
 
-            string displayedAcres = "500";
-
-            string fireSelect = $"SELECT * FROM {tableName} WHERE geom";
-            string makeEnvelope = $" && ST_MakeEnvelope({viewXMin}, {viewYMin}, {viewXMax}, {viewYMax}, 4326)";
-            string acreConstraint = $" AND dailyacres > {displayedAcres}";
-
-            string fullSqlQuery = fireSelect + makeEnvelope + acreConstraint;
-
-            List<Fire> fires = _context.Fires.FromSqlRaw(fullSqlQuery).ToList();
             return Ok(fires);
         }
 

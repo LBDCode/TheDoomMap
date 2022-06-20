@@ -9,10 +9,10 @@ const styles = theme => ({
     metricsGrid: {
         position: "fixed",
         zIndex: "5000",
-        bottom: "10px"
+        bottom: "10px",
+        padding: "4px"
     },
     metricsItem: {
-        backgroundColor: "red",
         opacity: ".8",
         textAlign: "center"
     },
@@ -45,10 +45,10 @@ const Metrics = (props) => {
             ymax: boundingCoords['_northEast']['lat']
         }
 
-        API.getFiresInBounds(polyCoords).then(response => response.json())
-            .then(data => {
-                setViewFires(data)
-            }).catch(err => console.log(err));
+        //API.getFiresInBounds(polyCoords).then(response => response.json())
+        //    .then(data => {
+        //        setViewFires(data)
+        //    }).catch(err => console.log(err));
 
         API.getDroughtsInBounds(polyCoords).then(response => response.json())
             .then(data => {
@@ -74,6 +74,7 @@ const Metrics = (props) => {
 
     return (
         <Grid
+            spacing={2}
             className={classes.metricsGrid}
             container
             direction="row"
@@ -81,16 +82,28 @@ const Metrics = (props) => {
             alignItems="center"
         >
             <Grid className={classes.metricsItem} item xs={3}>
-                <Paper className={classes.metricsPaper}>fires: {viewFires.length}</Paper>
+                <Paper className={classes.metricsPaper}>
+                    <h3>{viewFires.length} fires in view</h3>
+                    <h4>acres burned</h4>
+                </Paper>
             </Grid>
             <Grid className={classes.metricsItem} item xs={3}>
-                <Paper className={classes.metricsPaper}>storms: {viewStorms.length}</Paper>
+                <Paper className={classes.metricsPaper}>                    
+                    <h3>{viewStorms.length} storms in view</h3>
+                    <h4>acres burned</h4>
+                </Paper>
             </Grid>
             <Grid className={classes.metricsItem} item xs={3}>
-                <Paper className={classes.metricsPaper}>fires: droughts: {viewDroughts.length}</Paper>
+                <Paper className={classes.metricsPaper}>                    
+                    <h3>{viewDroughts.length} droughts in view</h3>
+                    <h4>acres affected</h4>
+                </Paper>
             </Grid>
             <Grid className={classes.metricsItem} item xs={3}>
-                <Paper className={classes.metricsPaper}>areas: {viewAreas.length}</Paper>
+                <Paper className={classes.metricsPaper}>                    
+                    <h3>{viewAreas.length} advisory areas in view</h3>
+                    <h4>acres affected</h4>
+                </Paper>
             </Grid>            
 
         </ Grid>

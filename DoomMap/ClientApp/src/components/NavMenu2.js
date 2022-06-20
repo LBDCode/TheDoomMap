@@ -207,6 +207,7 @@ export default function NavMenu() {
                     <div className={classes.sectionDesktop}>
                         <Link className={classes.rightlinks} to={"/"} href="/">Home</Link>
                         <Link className={classes.rightlinks} to={"/map"} href="/map">Map</Link>
+                        <Link className={classes.rightlinks}>Account Profile</Link>
                     </div>
                     <div className={classes.sectionMobile}>
                         <IconButton
@@ -222,7 +223,6 @@ export default function NavMenu() {
                 </Toolbar>
             </AppBar>
             {renderMobileMenu}
-            {renderMenu}
             {renderMenu}
         </div>
     );
